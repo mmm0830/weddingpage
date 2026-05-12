@@ -4,103 +4,238 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>最後の問題</title>
+
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   min-height:100vh;
+
   display:flex;
   flex-direction:column;
+
   justify-content:center;
   align-items:center;
-  background:#fff8fc;
-  font-family:sans-serif;
+
+  padding:20px;
+
+  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+
+  background:linear-gradient(
+    135deg,
+    #ffe6f4,
+    #fff7b0,
+    #b9f4ff
+  );
+}
+
+.title{
+  margin-bottom:30px;
+
+  font-size:28px;
+  font-weight:bold;
+
+  color:#ff4f8b;
 }
 
 .container{
+
+  width:100%;
+  max-width:420px;
+
   display:grid;
   grid-template-columns:repeat(5,1fr);
+
   gap:10px;
-  width:90%;
-  max-width:420px;
 }
 
 .box{
+
   position:relative;
+
   aspect-ratio:1/1;
+
   border-radius:20px;
+
   border:4px solid;
+
   background:white;
+
+  box-shadow:
+    0 8px 16px rgba(0,0,0,.08);
 }
 
 .box input{
+
   width:100%;
   height:100%;
+
   border:none;
+  background:transparent;
+
   text-align:center;
+
   font-size:34px;
+  font-weight:bold;
+
+  outline:none;
 }
 
 .number{
+
   position:absolute;
+
   top:8px;
   left:10px;
+
+  font-size:16px;
   font-weight:bold;
+
+  background:white;
+
+  border-radius:8px;
+
+  padding:2px 4px;
 }
 
-.red{border-color:#ff6b6b;}
-.blue{border-color:#4dabf7;}
-.yellow{border-color:#ffd43b;}
-.green{border-color:#51cf66;}
-.purple{border-color:#b197fc;}
 
-button{
-  margin-top:40px;
+/* 色 */
+
+.red{
+  border-color:#ff6b6b;
+}
+.red .number{
+  color:#ff6b6b;
+}
+
+
+.blue{
+  border-color:#4dabf7;
+}
+.blue .number{
+  color:#4dabf7;
+}
+
+
+.yellow{
+  border-color:#f7b801;
+}
+.yellow .number{
+  color:#f7b801;
+}
+
+
+.green{
+  border-color:#51cf66;
+}
+.green .number{
+  color:#51cf66;
+}
+
+
+.purple{
+  border-color:#b197fc;
+}
+.purple .number{
+  color:#b197fc;
+}
+
+
+#answerBtn{
+
+  margin-top:50px;
+
   border:none;
+
   border-radius:999px;
+
   padding:16px 50px;
+
   font-size:20px;
+  font-weight:bold;
+
   color:white;
-  background:linear-gradient(90deg,#ff4f8b,#ff8f3c);
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff4f8b,
+      #ff8f3c
+    );
+
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.12);
+}
+
+#message{
+
+  margin-top:18px;
+
+  min-height:24px;
+
+  color:#ff4f8b;
+
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
+
+<div class="title">
+  最後の問題
+</div>
+
+
 <div class="container">
 
-<div class="box red">
-<div class="number">1</div>
-<input id="a1" maxlength="1">
+  <div class="box red">
+    <div class="number">1</div>
+    <input id="a1" maxlength="1">
+  </div>
+
+  <div class="box blue">
+    <div class="number">3</div>
+    <input id="a2" maxlength="1">
+  </div>
+
+  <div class="box yellow">
+    <div class="number">2</div>
+    <input id="a3" maxlength="1">
+  </div>
+
+  <div class="box green">
+    <div class="number">1</div>
+    <input id="a4" maxlength="1">
+  </div>
+
+  <div class="box purple">
+    <div class="number">2</div>
+    <input id="a5" maxlength="1">
+  </div>
+
 </div>
 
-<div class="box blue">
-<div class="number">3</div>
-<input id="a2" maxlength="1">
-</div>
 
-<div class="box yellow">
-<div class="number">2</div>
-<input id="a3" maxlength="1">
-</div>
-
-<div class="box green">
-<div class="number">1</div>
-<input id="a4" maxlength="1">
-</div>
-
-<div class="box purple">
-<div class="number">2</div>
-<input id="a5" maxlength="1">
-</div>
-
-</div>
-
-<button onclick="checkFinal()">
-答える！
+<button
+  id="answerBtn"
+  onclick="checkFinal()"
+>
+  答える！
 </button>
 
+
+<div id="message"></div>
+
+
+
 <script>
+
 
 const correct = [
   "あ",
@@ -110,30 +245,102 @@ const correct = [
   "う"
 ];
 
+
+
 function hira(str){
-  return str.trim().replace(/[ァ-ン]/g,s =>
-    String.fromCharCode(s.charCodeAt(0)-0x60)
-  );
+
+  return str
+    .trim()
+    .replace(/[ァ-ン]/g,s =>
+      String.fromCharCode(
+        s.charCodeAt(0)-0x60
+      )
+    );
+
 }
+
+
+
+const ids = [
+  "a1",
+  "a2",
+  "a3",
+  "a4",
+  "a5"
+];
+
+
+
+ids.forEach((id,i)=>{
+
+  document
+    .getElementById(id)
+    .addEventListener(
+      "input",
+      ()=>{
+
+        if(
+          i < ids.length-1 &&
+          document
+            .getElementById(id)
+            .value.length === 1
+        ){
+
+          document
+            .getElementById(
+              ids[i+1]
+            )
+            .focus();
+
+        }
+
+      }
+    );
+
+});
+
+
 
 function checkFinal(){
 
-  const input = [
-    hira(a1.value),
-    hira(a2.value),
-    hira(a3.value),
-    hira(a4.value),
-    hira(a5.value)
-  ];
 
-  if(JSON.stringify(input)
-  === JSON.stringify(correct)){
+  const input =
+    ids.map(id =>
 
-    location.href="ending.html";
+      hira(
+        document
+          .getElementById(id)
+          .value
+      )
+
+    );
+
+
+
+  if(
+
+    JSON.stringify(input)
+    ===
+    JSON.stringify(correct)
+
+  ){
+
+    location.href =
+      "ending.html";
+
+  }else{
+
+    document
+      .getElementById(
+        "message"
+      )
+      .innerHTML =
+      "ちがうみたい…";
 
   }
 
 }
+
 
 </script>
 
