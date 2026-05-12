@@ -4,43 +4,420 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Congratulations</title>
+
 <style>
+
+*{
+  box-sizing:border-box;
+}
+
 body{
+
   margin:0;
+
+  overflow:hidden;
+
   min-height:100vh;
+
   display:flex;
+
   justify-content:center;
+
   align-items:center;
-  background:linear-gradient(135deg,#ffe6f4,#fff7b0,#b9f4ff);
-  font-family:sans-serif;
-  padding:30px;
+
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    sans-serif;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffe6f4,
+      #fff7b0,
+      #b9f4ff
+    );
+
 }
 
-.card{
-  background:white;
-  border-radius:30px;
-  padding:30px;
-  max-width:420px;
+
+/* 紙吹雪 */
+
+canvas{
+
+  position:fixed;
+
+  inset:0;
+
+  pointer-events:none;
+
 }
 
-.text{
+
+/* 中央 */
+
+.center{
+
+  position:relative;
+
+  z-index:10;
+
+  text-align:center;
+
+}
+
+
+/* Congratulations */
+
+.title{
+
+  font-size:
+    clamp(28px,8vw,56px);
+
+  font-weight:900;
+
+  color:#ff4f8b;
+
+  animation:
+    pop .8s ease;
+
+}
+
+
+/* メッセージ */
+
+.message{
+
+  margin-top:40px;
+
+  font-size:
+    clamp(16px,4vw,24px);
+
   line-height:1.8;
-  font-size:18px;
+
+  color:#555;
+
+  opacity:0;
+
 }
+
+.message.show{
+
+  animation:
+    fadeMessage 1.5s forwards;
+
+}
+
+
+
+@keyframes pop{
+
+  0%{
+
+    opacity:0;
+
+    transform:
+      scale(.4);
+
+  }
+
+  70%{
+
+    transform:
+      scale(1.1);
+
+  }
+
+  100%{
+
+    opacity:1;
+
+    transform:
+      scale(1);
+
+  }
+
+}
+
+
+@keyframes fadeMessage{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      translateY(20px);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="card">
-<div class="text">
 
-【ここに最後の文章を入れる】
 
-ダミーテキスト
+<canvas id="canvas"></canvas>
+
+
+
+<div class="center">
+
+
+  <div class="title">
+    🎉 Congratulations! 🎉
+  </div>
+
+<div
+  class="message"
+  id="message"
+>
+
+  今日は私たちの結婚式に来てくれて、<br>
+  本当にありがとうございます！<br><br>
+
+  我々にとって縁の深いみなさまの笑顔に囲まれて、<br>
+  今日という特別な日を迎えられたこと、<br>
+  心から幸福と感じています。<br><br>
+
+  まだまだ未熟なふたりですが、<br>
+  今日ここで交わした誓いを一生のあかしとして、<br>
+  手を取り合って歩んでいきます。<br><br>
+
+  これからも、どうぞよしなに<br>
+  末永くよろしくお願いします
 
 </div>
+  
 </div>
+
+
+
+<script>
+
+
+
+const canvas =
+  document.getElementById(
+    "canvas"
+  );
+
+
+const ctx =
+  canvas.getContext(
+    "2d"
+  );
+
+
+
+function resize(){
+
+  canvas.width =
+    innerWidth;
+
+  canvas.height =
+    innerHeight;
+
+}
+
+resize();
+
+addEventListener(
+  "resize",
+  resize
+);
+
+
+
+const colors = [
+
+  "#ff4f8b",
+
+  "#4dabf7",
+
+  "#f7b801",
+
+  "#51cf66",
+
+  "#b197fc"
+
+];
+
+
+
+const pieces = [];
+
+
+
+for(
+  let i=0;
+  i<120;
+  i++
+){
+
+  pieces.push({
+
+    x:
+      Math.random()
+      * canvas.width,
+
+    y:
+      -50
+      - Math.random()
+      * canvas.height,
+
+    size:
+      6
+      + Math.random()*8,
+
+    speed:
+      2
+      + Math.random()*4,
+
+    drift:
+      -2
+      + Math.random()*4,
+
+    color:
+      colors[
+        Math.floor(
+          Math.random()
+          * colors.length
+        )
+      ]
+
+  });
+
+}
+
+
+
+let running = true;
+
+
+
+function animate(){
+
+
+  if(
+    !running
+  ){
+    return;
+  }
+
+
+  ctx.clearRect(
+
+    0,
+    0,
+
+    canvas.width,
+    canvas.height
+
+  );
+
+
+
+  pieces.forEach(p=>{
+
+
+    p.y +=
+      p.speed;
+
+
+    p.x +=
+      p.drift;
+
+
+
+    ctx.fillStyle =
+      p.color;
+
+
+    ctx.fillRect(
+
+      p.x,
+
+      p.y,
+
+      p.size,
+
+      p.size
+
+    );
+
+
+  });
+
+
+
+  requestAnimationFrame(
+    animate
+  );
+
+
+}
+
+
+
+animate();
+
+
+
+
+/* 2秒後紙吹雪停止 */
+
+setTimeout(()=>{
+
+  running =
+    false;
+
+  ctx.clearRect(
+
+    0,
+    0,
+
+    canvas.width,
+    canvas.height
+
+  );
+
+},2000);
+
+
+
+
+/* メッセージ表示 */
+
+setTimeout(()=>{
+
+  document
+    .getElementById(
+      "message"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+},2200);
+
+
+
+</script>
 
 </body>
 </html>
