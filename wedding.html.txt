@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:#fff8fc;
+  font-family:sans-serif;
+  padding:20px;
+}
+
+.container{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  width:100%;
+  max-width:420px;
+}
+
+.box{
+  position:relative;
+  aspect-ratio:1/1;
+  background:white;
+  border-radius:20px;
+  border:4px solid;
+  box-shadow:0 8px 16px rgba(0,0,0,.08);
+}
+
+.box input{
+  width:100%;
+  height:100%;
+  border:none;
+  background:transparent;
+  text-align:center;
+  font-size:34px;
+  font-weight:bold;
+  outline:none;
+}
+
+.number{
+  position:absolute;
+  top:8px;
+  left:10px;
+  font-size:16px;
+  font-weight:bold;
+  background:white;
+  padding:2px 4px;
+  border-radius:8px;
+}
+
+/* 色 */
+.red{
+  border-color:#ff6b6b;
+}
+.red .number{
+  color:#ff6b6b;
+}
+
+.blue{
+  border-color:#4dabf7;
+}
+.blue .number{
+  color:#4dabf7;
+}
+
+.yellow{
+  border-color:#f7b801;
+}
+.yellow .number{
+  color:#f7b801;
+}
+
+.green{
+  border-color:#51cf66;
+}
+.green .number{
+  color:#51cf66;
+}
+
+.purple{
+  border-color:#b197fc;
+}
+.purple .number{
+  color:#b197fc;
+}
+
+#answerBtn{
+  margin-top:50px;
+  border:none;
+  border-radius:999px;
+  padding:16px 50px;
+  font-size:20px;
+  font-weight:bold;
+  color:white;
+  background:linear-gradient(90deg,#ff4f8b,#ff8f3c);
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
+}
+
+#message{
+  margin-top:16px;
+  color:#ff4f8b;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="box red">
+    <div class="number">1</div>
+    <input id="c1" maxlength="1">
+  </div>
+
+  <div class="box blue">
+    <div class="number">3</div>
+    <input id="c2" maxlength="1">
+  </div>
+
+  <div class="box yellow">
+    <div class="number">2</div>
+    <input id="c3" maxlength="1">
+  </div>
+
+  <div class="box green">
+    <div class="number">1</div>
+    <input id="c4" maxlength="1">
+  </div>
+
+  <div class="box purple">
+    <div class="number">2</div>
+    <input id="c5" maxlength="1">
+  </div>
+
+</div>
+
+<button id="answerBtn" onclick="checkAnswer()">
+  答える！
+</button>
+
+<div id="message"></div>
+
+<script>
+
+// ★ここをあとで変える
+const correct = ["え","が","お","だ","よ"];
+
+function hira(str){
+  return str.trim().replace(/[ァ-ン]/g,s =>
+    String.fromCharCode(s.charCodeAt(0)-0x60)
+  );
+}
+
+// 自動で次のマスへ
+const ids = ["c1","c2","c3","c4","c5"];
+
+ids.forEach((id,i)=>{
+  document.getElementById(id).addEventListener("input",()=>{
+    if(i < ids.length-1){
+      document.getElementById(ids[i+1]).focus();
+    }
+  });
+});
+
+function checkAnswer(){
+
+  const input = ids.map(id =>
+    hira(document.getElementById(id).value)
+  );
+
+  if(JSON.stringify(input) === JSON.stringify(correct)){
+
+    location.href = "ending.html";
+
+  }else{
+
+    document.getElementById("message").innerHTML =
+      "ちがうみたい…";
+
+  }
+
+}
+</script>
+
+</body>
+</html>
