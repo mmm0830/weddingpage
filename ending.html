@@ -84,12 +84,24 @@ canvas{
 
 .title{
 
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:10px;
+
+  flex-wrap:nowrap;
+
+  white-space:nowrap;
+
   font-size:
-    clamp(28px,8vw,56px);
+    clamp(22px,6vw,42px);
 
-  line-height:1.2;
+  line-height:1;
 
-  font-weight:900;
+  font-weight:800;
 
   color:#ff4f8b;
 
@@ -98,6 +110,13 @@ canvas{
 
 }
 
+  .title span{
+
+  font-size:.9em;
+
+  flex-shrink:0;
+
+}
 
 
 /* メッセージ */
@@ -132,11 +151,11 @@ canvas{
 
 .thanks{
 
-  font-weight:900;
+  font-weight:600;
 
-  font-size:1.15em;
+  font-size:1.08em;
 
-  color:#ff4f8b;
+  color:#e96a92;
 
 }
 
@@ -211,9 +230,15 @@ canvas{
 <div class="center">
 
 
-  <div class="title">
-    🎉 Congratulations! 🎉
-  </div>
+<div class="title">
+
+  <span>🎉</span>
+
+  Congratulations!
+
+  <span>🎉</span>
+
+</div>
 
 
 
