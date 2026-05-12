@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>なぞとき</title>
+<title>なぞときチャレンジ</title>
 
 <style>
-*{box-sizing:border-box;}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  font-family:sans-serif;
+  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
   background:linear-gradient(135deg,#ff9ad5,#ffd36e,#8fe8ff);
   min-height:100vh;
   display:flex;
@@ -25,42 +27,61 @@ body{
   max-width:420px;
   background:white;
   border-radius:30px;
-  padding:25px;
+  padding:28px 22px;
+  box-shadow:0 15px 35px rgba(0,0,0,.12);
   text-align:center;
 }
 
 h1{
+  margin:0 0 20px;
   color:#ff4f8b;
+  font-size:28px;
 }
 
 .wordBox{
-  margin-bottom:15px;
+  margin-bottom:18px;
+}
+
+.label{
+  margin-bottom:8px;
+  font-size:18px;
+  font-weight:bold;
+  color:#555;
 }
 
 .wordBox input{
   width:100%;
-  padding:14px;
+  padding:15px;
   font-size:18px;
-  border-radius:15px;
+  border-radius:16px;
   border:2px solid #eee;
+  outline:none;
   text-align:center;
 }
 
-.label{
-  margin-bottom:5px;
+.wordBox input:focus{
+  border-color:#ff9ad5;
+}
+
+.hintButton{
+  display:none;
+  margin-top:8px;
+  font-size:13px;
+  color:#4dabf7;
+  text-decoration:underline;
   font-weight:bold;
 }
 
 .hint{
-  margin-top:6px;
-  min-height:30px;
+  margin-top:8px;
+  min-height:20px;
   font-size:12px;
   color:#ff4f8b;
+  font-weight:bold;
 }
 
 button{
   width:100%;
-  margin-top:20px;
   border:none;
   border-radius:999px;
   padding:16px;
@@ -72,29 +93,45 @@ button{
 
 #finalButton{
   display:none;
-  margin-top:20px;
+  margin-top:16px;
 }
 
 #clearScreen{
   position:fixed;
   inset:0;
-  background:white;
+  background:rgba(255,255,255,.96);
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:999;
+  z-index:9999;
   opacity:0;
   pointer-events:none;
 }
 
 #clearScreen.show{
   opacity:1;
+  transition:.4s;
 }
 
 .mainText{
-  font-size:42px;
-  font-weight:bold;
+  font-size:clamp(34px,8vw,52px);
+  font-weight:900;
   color:#ff4f8b;
+  animation:pop .8s ease;
+}
+
+@keyframes pop{
+  0%{
+    transform:scale(.3);
+    opacity:0;
+  }
+  70%{
+    transform:scale(1.1);
+  }
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
 }
 </style>
 </head>
@@ -106,41 +143,56 @@ button{
 <h1>なぞときチャレンジ！</h1>
 
 <div class="wordBox">
-<div class="label">①</div>
-<input id="c1">
-<div class="hint" id="h1"></div>
+  <div class="label">①</div>
+  <input id="c1" placeholder="3文字">
+  <div class="hintButton" id="btn1" onclick="showHint(1)">
+    - ヒントを見る -
+  </div>
+  <div class="hint" id="h1"></div>
 </div>
 
 <div class="wordBox">
-<div class="label">②</div>
-<input id="c2">
-<div class="hint" id="h2"></div>
+  <div class="label">②</div>
+  <input id="c2" placeholder="4文字">
+  <div class="hintButton" id="btn2" onclick="showHint(2)">
+    - ヒントを見る -
+  </div>
+  <div class="hint" id="h2"></div>
 </div>
 
 <div class="wordBox">
-<div class="label">③</div>
-<input id="c3">
-<div class="hint" id="h3"></div>
+  <div class="label">③</div>
+  <input id="c3" placeholder="4文字">
+  <div class="hintButton" id="btn3" onclick="showHint(3)">
+    - ヒントを見る -
+  </div>
+  <div class="hint" id="h3"></div>
 </div>
 
 <div class="wordBox">
-<div class="label">④</div>
-<input id="c4">
-<div class="hint" id="h4"></div>
+  <div class="label">④</div>
+  <input id="c4" placeholder="3文字">
+  <div class="hintButton" id="btn4" onclick="showHint(4)">
+    - ヒントを見る -
+  </div>
+  <div class="hint" id="h4"></div>
 </div>
 
 <div class="wordBox">
-<div class="label">⑤</div>
-<input id="c5">
-<div class="hint" id="h5"></div>
+  <div class="label">⑤</div>
+  <input id="c5" placeholder="3文字">
+  <div class="hintButton" id="btn5" onclick="showHint(5)">
+    - ヒントを見る -
+  </div>
+  <div class="hint" id="h5"></div>
 </div>
 
 <button onclick="check()">
-こたえる！
+  こたえる！
 </button>
 
 <button id="finalButton" onclick="goFinal()">
-最後の問題へ
+  最後の問題へ
 </button>
 
 </div>
@@ -172,9 +224,11 @@ const hints = [
 ];
 
 function hira(str){
-  return str.trim().replace(/[ァ-ン]/g,s =>
-    String.fromCharCode(s.charCodeAt(0)-0x60)
-  );
+  return str
+    .trim()
+    .replace(/[ァ-ン]/g, s =>
+      String.fromCharCode(s.charCodeAt(0)-0x60)
+    );
 }
 
 function check(){
@@ -182,7 +236,12 @@ function check(){
   let score = 0;
 
   for(let i=1;i<=5;i++){
-    document.getElementById("h"+i).innerHTML="";
+
+    document.getElementById("h"+i).innerHTML = "";
+
+    document.getElementById("btn"+i)
+      .style.display = "none";
+
   }
 
   const input = [
@@ -195,35 +254,54 @@ function check(){
 
   for(let i=0;i<5;i++){
 
-    if(input[i]===correct[i]){
+    if(input[i] === correct[i]){
+
       score++;
+
     }else{
-      document.getElementById("h"+(i+1)).innerHTML =
-      hints[i];
+
+      document.getElementById("btn"+(i+1))
+        .style.display = "block";
+
     }
 
   }
 
-  if(score===5){
+  if(score === 5){
+
     showCongratulations();
+
   }
+
+}
+
+function showHint(num){
+
+  document.getElementById("h"+num)
+    .innerHTML = hints[num-1];
 
 }
 
 function showCongratulations(){
 
-  document.getElementById("clearScreen")
-  .classList.add("show");
+  document
+    .getElementById("clearScreen")
+    .classList.add("show");
 
   setTimeout(()=>{
-    document.getElementById("finalButton")
-    .style.display="block";
+
+    document
+      .getElementById("finalButton")
+      .style.display = "block";
+
   },2500);
 
 }
 
 function goFinal(){
-  location.href="final.html";
+
+  location.href = "final.html";
+
 }
 
 </script>
