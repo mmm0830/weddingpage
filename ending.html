@@ -2,7 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>Congratulations</title>
 
@@ -26,6 +29,8 @@ body{
 
   align-items:center;
 
+  padding:24px;
+
   font-family:
     "Hiragino Sans",
     "Yu Gothic",
@@ -42,6 +47,7 @@ body{
 }
 
 
+
 /* 紙吹雪 */
 
 canvas{
@@ -55,6 +61,7 @@ canvas{
 }
 
 
+
 /* 中央 */
 
 .center{
@@ -63,9 +70,14 @@ canvas{
 
   z-index:10;
 
+  width:100%;
+
+  max-width:640px;
+
   text-align:center;
 
 }
+
 
 
 /* Congratulations */
@@ -74,6 +86,8 @@ canvas{
 
   font-size:
     clamp(28px,8vw,56px);
+
+  line-height:1.2;
 
   font-weight:900;
 
@@ -85,22 +99,25 @@ canvas{
 }
 
 
+
 /* メッセージ */
 
 .message{
 
-  margin-top:40px;
+  margin-top:42px;
 
   font-size:
-    clamp(16px,4vw,24px);
+    clamp(15px,4vw,22px);
 
-  line-height:1.8;
+  line-height:1.9;
 
   color:#555;
 
   opacity:0;
 
 }
+
+
 
 .message.show{
 
@@ -110,6 +127,22 @@ canvas{
 }
 
 
+
+/* ありがとう */
+
+.thanks{
+
+  font-weight:900;
+
+  font-size:1.15em;
+
+  color:#ff4f8b;
+
+}
+
+
+
+/* animation */
 
 @keyframes pop{
 
@@ -139,6 +172,7 @@ canvas{
   }
 
 }
+
 
 
 @keyframes fadeMessage{
@@ -181,27 +215,35 @@ canvas{
     🎉 Congratulations! 🎉
   </div>
 
-<div
-  class="message"
-  id="message"
->
 
-  今日は私たちの結婚式に来てくれて、<br>
-  本当にありがとうございます！<br><br>
 
-  我々にとって縁の深いみなさまの笑顔に囲まれて、<br>
-  今日という特別な日を迎えられたこと、<br>
-  心から幸福と感じています。<br><br>
+  <div
+    class="message"
+    id="message"
+  >
 
-  まだまだ未熟なふたりですが、<br>
-  今日ここで交わした誓いを一生のあかしとして、<br>
-  手を取り合って歩んでいきます。<br><br>
+    今日は私たちの結婚式に来てくれて、<br>
 
-  これからも、どうぞよしなに<br>
-  末永くよろしくお願いします
+    <span class="thanks">
+      本当にありがとう！
+    </span>
 
-</div>
-  
+    <br><br>
+
+    我々にとって縁の深いみなさまの笑顔に囲まれて、<br>
+    今日という特別な日を迎えられたこと、<br>
+    心から幸福と感じています。<br><br>
+
+    まだまだ未熟なふたりですが、<br>
+    今日ここで交わした誓いを一生のあかしとして、<br>
+    手を取り合って歩んでいきます。<br><br>
+
+    これからも、どうぞよしなに<br>
+    末永くよろしくお願いします
+
+  </div>
+
+
 </div>
 
 
@@ -211,9 +253,11 @@ canvas{
 
 
 const canvas =
-  document.getElementById(
-    "canvas"
-  );
+  document
+    .getElementById(
+      "canvas"
+    );
+
 
 
 const ctx =
@@ -228,31 +272,40 @@ function resize(){
   canvas.width =
     innerWidth;
 
+
   canvas.height =
     innerHeight;
 
 }
 
+
+
 resize();
 
+
+
 addEventListener(
+
   "resize",
+
   resize
+
 );
+
 
 
 
 const colors = [
 
-  "#ff4f8b",
+  "#f4a7b9",
 
-  "#4dabf7",
+  "#9fcaf7",
 
-  "#f7b801",
+  "#f6dd8b",
 
-  "#51cf66",
+  "#9fd9b0",
 
-  "#b197fc"
+  "#c8b2f2"
 
 ];
 
@@ -268,28 +321,40 @@ for(
   i++
 ){
 
+
   pieces.push({
+
 
     x:
       Math.random()
       * canvas.width,
+
 
     y:
       -50
       - Math.random()
       * canvas.height,
 
+
     size:
       6
       + Math.random()*8,
+
 
     speed:
       2
       + Math.random()*4,
 
+
     drift:
       -2
       + Math.random()*4,
+
+
+    rotate:
+      Math.random()
+      * 360,
+
 
     color:
       colors[
@@ -299,13 +364,18 @@ for(
         )
       ]
 
+
   });
+
 
 }
 
 
 
-let running = true;
+
+let running =
+  true;
+
 
 
 
@@ -317,6 +387,7 @@ function animate(){
   ){
     return;
   }
+
 
 
   ctx.clearRect(
@@ -338,8 +409,39 @@ function animate(){
       p.speed;
 
 
+
     p.x +=
       p.drift;
+
+
+
+    p.rotate +=
+      4;
+
+
+
+    ctx.save();
+
+
+
+    ctx.translate(
+
+      p.x,
+
+      p.y
+
+    );
+
+
+
+    ctx.rotate(
+
+      p.rotate
+      *
+      Math.PI
+      /180
+
+    );
 
 
 
@@ -347,17 +449,22 @@ function animate(){
       p.color;
 
 
+
     ctx.fillRect(
 
-      p.x,
+      0,
 
-      p.y,
+      0,
 
       p.size,
 
       p.size
 
     );
+
+
+
+    ctx.restore();
 
 
   });
@@ -373,17 +480,21 @@ function animate(){
 
 
 
+
 animate();
 
 
 
 
-/* 2秒後紙吹雪停止 */
+/* 2秒で紙吹雪終了 */
 
 setTimeout(()=>{
 
+
   running =
     false;
+
+
 
   ctx.clearRect(
 
@@ -395,6 +506,7 @@ setTimeout(()=>{
 
   );
 
+
 },2000);
 
 
@@ -404,6 +516,7 @@ setTimeout(()=>{
 
 setTimeout(()=>{
 
+
   document
     .getElementById(
       "message"
@@ -412,6 +525,7 @@ setTimeout(()=>{
     .add(
       "show"
     );
+
 
 },2200);
 
