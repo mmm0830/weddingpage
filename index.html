@@ -254,14 +254,24 @@ function check(){
 
   for(let i=0;i<5;i++){
 
+    const hintArea =
+      document.getElementById("h"+(i+1));
+
+    const hintButton =
+      document.getElementById("btn"+(i+1));
+
     if(input[i] === correct[i]){
 
       score++;
 
+      hintArea.innerHTML = "CLEAR";
+      hintArea.style.color = "#20d67b";
+
     }else{
 
-      document.getElementById("btn"+(i+1))
-        .style.display = "block";
+      hintButton.style.display = "block";
+
+      hintArea.style.color = "#ff4f8b";
 
     }
 
