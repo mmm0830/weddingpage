@@ -4,155 +4,172 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>なぞとき</title>
+
 <style>
+*{box-sizing:border-box;}
+
 body{
   margin:0;
+  font-family:sans-serif;
+  background:linear-gradient(135deg,#ff9ad5,#ffd36e,#8fe8ff);
   min-height:100vh;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
-  background:#fff8fc;
-  font-family:sans-serif;
   padding:20px;
 }
 
-.container{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:12px;
+.wrapper{
   width:100%;
   max-width:420px;
-}
-
-.box{
-  position:relative;
-  aspect-ratio:1/1;
   background:white;
-  border-radius:20px;
-  border:4px solid;
-  box-shadow:0 8px 16px rgba(0,0,0,.08);
-}
-
-.box input{
-  width:100%;
-  height:100%;
-  border:none;
-  background:transparent;
+  border-radius:30px;
+  padding:25px;
   text-align:center;
-  font-size:34px;
+}
+
+h1{
+  color:#ff4f8b;
+}
+
+.wordBox{
+  margin-bottom:15px;
+}
+
+.wordBox input{
+  width:100%;
+  padding:14px;
+  font-size:18px;
+  border-radius:15px;
+  border:2px solid #eee;
+  text-align:center;
+}
+
+.label{
+  margin-bottom:5px;
   font-weight:bold;
-  outline:none;
 }
 
-.number{
-  position:absolute;
-  top:8px;
-  left:10px;
-  font-size:16px;
-  font-weight:bold;
-  background:white;
-  padding:2px 4px;
-  border-radius:8px;
+.hint{
+  margin-top:6px;
+  min-height:30px;
+  font-size:12px;
+  color:#ff4f8b;
 }
 
-/* 色 */
-.red{
-  border-color:#ff6b6b;
-}
-.red .number{
-  color:#ff6b6b;
-}
-
-.blue{
-  border-color:#4dabf7;
-}
-.blue .number{
-  color:#4dabf7;
-}
-
-.yellow{
-  border-color:#f7b801;
-}
-.yellow .number{
-  color:#f7b801;
-}
-
-.green{
-  border-color:#51cf66;
-}
-.green .number{
-  color:#51cf66;
-}
-
-.purple{
-  border-color:#b197fc;
-}
-.purple .number{
-  color:#b197fc;
-}
-
-#answerBtn{
-  margin-top:50px;
+button{
+  width:100%;
+  margin-top:20px;
   border:none;
   border-radius:999px;
-  padding:16px 50px;
-  font-size:20px;
+  padding:16px;
+  font-size:18px;
   font-weight:bold;
   color:white;
   background:linear-gradient(90deg,#ff4f8b,#ff8f3c);
-  box-shadow:0 10px 20px rgba(0,0,0,.15);
 }
 
-#message{
-  margin-top:16px;
-  color:#ff4f8b;
+#finalButton{
+  display:none;
+  margin-top:20px;
+}
+
+#clearScreen{
+  position:fixed;
+  inset:0;
+  background:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+  opacity:0;
+  pointer-events:none;
+}
+
+#clearScreen.show{
+  opacity:1;
+}
+
+.mainText{
+  font-size:42px;
   font-weight:bold;
+  color:#ff4f8b;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="wrapper">
 
-  <div class="box red">
-    <div class="number">1</div>
-    <input id="c1" maxlength="1">
-  </div>
+<h1>なぞときチャレンジ！</h1>
 
-  <div class="box blue">
-    <div class="number">3</div>
-    <input id="c2" maxlength="1">
-  </div>
+<div class="wordBox">
+<div class="label">①</div>
+<input id="c1">
+<div class="hint" id="h1"></div>
+</div>
 
-  <div class="box yellow">
-    <div class="number">2</div>
-    <input id="c3" maxlength="1">
-  </div>
+<div class="wordBox">
+<div class="label">②</div>
+<input id="c2">
+<div class="hint" id="h2"></div>
+</div>
 
-  <div class="box green">
-    <div class="number">1</div>
-    <input id="c4" maxlength="1">
-  </div>
+<div class="wordBox">
+<div class="label">③</div>
+<input id="c3">
+<div class="hint" id="h3"></div>
+</div>
 
-  <div class="box purple">
-    <div class="number">2</div>
-    <input id="c5" maxlength="1">
-  </div>
+<div class="wordBox">
+<div class="label">④</div>
+<input id="c4">
+<div class="hint" id="h4"></div>
+</div>
+
+<div class="wordBox">
+<div class="label">⑤</div>
+<input id="c5">
+<div class="hint" id="h5"></div>
+</div>
+
+<button onclick="check()">
+こたえる！
+</button>
+
+<button id="finalButton" onclick="goFinal()">
+最後の問題へ
+</button>
 
 </div>
 
-<button id="answerBtn" onclick="checkAnswer()">
-  答える！
-</button>
 
-<div id="message"></div>
+<div id="clearScreen">
+  <div class="mainText">
+    🎉 Congratulations! 🎉
+  </div>
+</div>
+
 
 <script>
 
-// ★ここをあとで変える
-const correct = ["え","が","お","だ","よ"];
+const correct = [
+  "えがお",
+  "とくべつ",
+  "こうふく",
+  "ふたり",
+  "あかし"
+];
+
+const hints = [
+  "① 右から時計回り",
+  "② 矢印の通り道",
+  "③ 7×7、8×8、4×8",
+  "④ 上下左右に注目",
+  "⑤ もう一回"
+];
 
 function hira(str){
   return str.trim().replace(/[ァ-ン]/g,s =>
@@ -160,35 +177,55 @@ function hira(str){
   );
 }
 
-// 自動で次のマスへ
-const ids = ["c1","c2","c3","c4","c5"];
+function check(){
 
-ids.forEach((id,i)=>{
-  document.getElementById(id).addEventListener("input",()=>{
-    if(i < ids.length-1){
-      document.getElementById(ids[i+1]).focus();
+  let score = 0;
+
+  for(let i=1;i<=5;i++){
+    document.getElementById("h"+i).innerHTML="";
+  }
+
+  const input = [
+    hira(c1.value),
+    hira(c2.value),
+    hira(c3.value),
+    hira(c4.value),
+    hira(c5.value)
+  ];
+
+  for(let i=0;i<5;i++){
+
+    if(input[i]===correct[i]){
+      score++;
+    }else{
+      document.getElementById("h"+(i+1)).innerHTML =
+      hints[i];
     }
-  });
-});
-
-function checkAnswer(){
-
-  const input = ids.map(id =>
-    hira(document.getElementById(id).value)
-  );
-
-  if(JSON.stringify(input) === JSON.stringify(correct)){
-
-    location.href = "ending.html";
-
-  }else{
-
-    document.getElementById("message").innerHTML =
-      "ちがうみたい…";
 
   }
 
+  if(score===5){
+    showCongratulations();
+  }
+
 }
+
+function showCongratulations(){
+
+  document.getElementById("clearScreen")
+  .classList.add("show");
+
+  setTimeout(()=>{
+    document.getElementById("finalButton")
+    .style.display="block";
+  },2500);
+
+}
+
+function goFinal(){
+  location.href="final.html";
+}
+
 </script>
 
 </body>
