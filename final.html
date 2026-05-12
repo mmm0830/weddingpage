@@ -7,50 +7,67 @@
 <title>最後の問題</title>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
 
 body{
+
   margin:0;
+
   min-height:100vh;
 
   display:flex;
+
   flex-direction:column;
 
   justify-content:center;
+
   align-items:center;
 
   padding:20px;
 
-  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    sans-serif;
 
-  background:linear-gradient(
-    135deg,
-    #ffe6f4,
-    #fff7b0,
-    #b9f4ff
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #ffe6f4,
+      #fff7b0,
+      #b9f4ff
+    );
+
 }
 
 .title{
+
   margin-bottom:30px;
 
   font-size:28px;
+
   font-weight:bold;
 
   color:#ff4f8b;
+
 }
 
 .container{
 
   width:100%;
+
   max-width:420px;
 
   display:grid;
-  grid-template-columns:repeat(5,1fr);
+
+  grid-template-columns:
+    repeat(5,1fr);
 
   gap:10px;
+
 }
 
 .box{
@@ -66,23 +83,29 @@ body{
   background:white;
 
   box-shadow:
-    0 8px 16px rgba(0,0,0,.08);
+    0 8px 16px
+    rgba(0,0,0,.08);
+
 }
 
 .box input{
 
   width:100%;
+
   height:100%;
 
   border:none;
+
   background:transparent;
 
   text-align:center;
 
   font-size:34px;
+
   font-weight:bold;
 
   outline:none;
+
 }
 
 .number{
@@ -90,9 +113,11 @@ body{
   position:absolute;
 
   top:8px;
+
   left:10px;
 
   font-size:16px;
+
   font-weight:bold;
 
   background:white;
@@ -100,6 +125,7 @@ body{
   border-radius:8px;
 
   padding:2px 4px;
+
 }
 
 
@@ -145,6 +171,7 @@ body{
 }
 
 
+
 #answerBtn{
 
   margin-top:50px;
@@ -156,6 +183,7 @@ body{
   padding:16px 50px;
 
   font-size:20px;
+
   font-weight:bold;
 
   color:white;
@@ -168,8 +196,11 @@ body{
     );
 
   box-shadow:
-    0 10px 20px rgba(0,0,0,.12);
+    0 10px 20px
+    rgba(0,0,0,.12);
+
 }
+
 
 #message{
 
@@ -180,11 +211,14 @@ body{
   color:#ff4f8b;
 
   font-weight:bold;
+
 }
+
 </style>
 </head>
 
 <body>
+
 
 
 <div class="title">
@@ -192,34 +226,72 @@ body{
 </div>
 
 
+
 <div class="container">
+
 
   <div class="box red">
     <div class="number">1</div>
-    <input id="a1" maxlength="1">
+    <input
+      id="a1"
+      maxlength="1"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+    >
   </div>
+
 
   <div class="box blue">
     <div class="number">3</div>
-    <input id="a2" maxlength="1">
+    <input
+      id="a2"
+      maxlength="1"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+    >
   </div>
+
 
   <div class="box yellow">
     <div class="number">2</div>
-    <input id="a3" maxlength="1">
+    <input
+      id="a3"
+      maxlength="1"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+    >
   </div>
+
 
   <div class="box green">
     <div class="number">1</div>
-    <input id="a4" maxlength="1">
+    <input
+      id="a4"
+      maxlength="1"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+    >
   </div>
+
 
   <div class="box purple">
     <div class="number">2</div>
-    <input id="a5" maxlength="1">
+    <input
+      id="a5"
+      maxlength="1"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+    >
   </div>
 
+
 </div>
+
 
 
 <button
@@ -230,96 +302,165 @@ body{
 </button>
 
 
+
 <div id="message"></div>
 
 
 
 <script>
 
+
+
 const correct = [
+
   "あ",
+
   "り",
+
   "が",
+
   "と",
+
   "う"
+
 ];
+
 
 
 function hira(str){
 
   return str
     .trim()
-    .replace(/[ァ-ン]/g,s =>
-      String.fromCharCode(
-        s.charCodeAt(0)-0x60
-      )
+    .replace(
+      /[ァ-ン]/g,
+      s =>
+      String
+        .fromCharCode(
+          s.charCodeAt(0)-0x60
+        )
     );
 
 }
 
 
+
 const ids = [
+
   "a1",
+
   "a2",
+
   "a3",
+
   "a4",
+
   "a5"
+
 ];
 
 
 
 ids.forEach((id,i)=>{
 
-  const input =
-    document.getElementById(id);
+
+  const box =
+    document
+      .getElementById(
+        id
+      );
 
 
-  // 日本語入力確定後にだけ次へ
-  input.addEventListener(
-    "compositionend",
+  let composing =
+    false;
+
+
+
+  box.addEventListener(
+
+    "compositionstart",
+
     ()=>{
 
-      setTimeout(()=>{
-
-        if(
-          input.value.length > 0 &&
-          i < ids.length-1
-        ){
-
-          document
-            .getElementById(
-              ids[i+1]
-            )
-            .focus();
-
-        }
-
-      },120);
+      composing =
+        true;
 
     }
+
   );
 
 
-  // 英数字入力用
-  input.addEventListener(
-    "change",
+
+  box.addEventListener(
+
+    "compositionend",
+
+    ()=>{
+
+      composing =
+        false;
+
+      moveNext();
+
+    }
+
+  );
+
+
+
+  box.addEventListener(
+
+    "input",
+
     ()=>{
 
       if(
-        input.value.length > 0 &&
-        i < ids.length-1
+        !composing
       ){
 
-        document
-          .getElementById(
-            ids[i+1]
-          )
-          .focus();
+        moveNext();
 
       }
 
     }
+
   );
+
+
+
+  function moveNext(){
+
+
+    if(
+
+      box
+        .value
+        .length > 0
+
+      &&
+
+      i < ids.length-1
+
+    ){
+
+
+      setTimeout(()=>{
+
+        document
+          .getElementById(
+
+            ids[i+1]
+
+          )
+          .focus();
+
+      },80);
+
+
+    }
+
+
+  }
+
 
 });
 
@@ -327,28 +468,48 @@ ids.forEach((id,i)=>{
 
 function checkFinal(){
 
+
   const input =
-    ids.map(id =>
+
+    ids.map(
+
+      id =>
 
       hira(
+
         document
-          .getElementById(id)
+          .getElementById(
+            id
+          )
           .value
+
       )
 
     );
 
 
+
   if(
-    JSON.stringify(input)
+
+    JSON.stringify(
+      input
+    )
+
     ===
-    JSON.stringify(correct)
+
+    JSON.stringify(
+      correct
+    )
+
   ){
+
 
     location.href =
       "ending.html";
 
+
   }else{
+
 
     document
       .getElementById(
@@ -357,7 +518,9 @@ function checkFinal(){
       .innerHTML =
       "ちがうみたい…";
 
+
   }
+
 
 }
 
