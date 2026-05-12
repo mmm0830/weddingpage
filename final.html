@@ -236,7 +236,6 @@ body{
 
 <script>
 
-
 const correct = [
   "あ",
   "り",
@@ -244,7 +243,6 @@ const correct = [
   "と",
   "う"
 ];
-
 
 
 function hira(str){
@@ -260,7 +258,6 @@ function hira(str){
 }
 
 
-
 const ids = [
   "a1",
   "a2",
@@ -273,17 +270,20 @@ const ids = [
 
 ids.forEach((id,i)=>{
 
-  document
-    .getElementById(id)
-    .addEventListener(
-      "input",
-      ()=>{
+  const input =
+    document.getElementById(id);
+
+
+  // 日本語入力確定後にだけ次へ
+  input.addEventListener(
+    "compositionend",
+    ()=>{
+
+      setTimeout(()=>{
 
         if(
-          i < ids.length-1 &&
-          document
-            .getElementById(id)
-            .value.length === 1
+          input.value.length > 0 &&
+          i < ids.length-1
         ){
 
           document
@@ -294,15 +294,38 @@ ids.forEach((id,i)=>{
 
         }
 
+      },120);
+
+    }
+  );
+
+
+  // 英数字入力用
+  input.addEventListener(
+    "change",
+    ()=>{
+
+      if(
+        input.value.length > 0 &&
+        i < ids.length-1
+      ){
+
+        document
+          .getElementById(
+            ids[i+1]
+          )
+          .focus();
+
       }
-    );
+
+    }
+  );
 
 });
 
 
 
 function checkFinal(){
-
 
   const input =
     ids.map(id =>
@@ -316,13 +339,10 @@ function checkFinal(){
     );
 
 
-
   if(
-
     JSON.stringify(input)
     ===
     JSON.stringify(correct)
-
   ){
 
     location.href =
