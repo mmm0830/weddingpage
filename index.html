@@ -4,315 +4,646 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>なぞときチャレンジ</title>
+<title>なぞとき</title>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
 
 body{
+
   margin:0;
-  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-  background:linear-gradient(135deg,#ff9ad5,#ffd36e,#8fe8ff);
+
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    sans-serif;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff9ad5,
+      #ffd36e,
+      #8fe8ff
+    );
+
   min-height:100vh;
+
   display:flex;
+
   justify-content:center;
+
   align-items:center;
+
   padding:20px;
+
 }
 
 .wrapper{
+
   width:100%;
+
   max-width:420px;
+
   background:white;
+
   border-radius:30px;
+
   padding:28px 22px;
-  box-shadow:0 15px 35px rgba(0,0,0,.12);
+
+  box-shadow:
+    0 15px 35px
+    rgba(0,0,0,.12);
+
   text-align:center;
+
 }
 
 h1{
+
   margin:0 0 20px;
+
   color:#ff4f8b;
+
   font-size:28px;
+
 }
 
 .wordBox{
+
   margin-bottom:18px;
+
 }
 
 .label{
+
   margin-bottom:8px;
+
   font-size:18px;
+
   font-weight:bold;
+
   color:#555;
+
 }
 
 .wordBox input{
+
   width:100%;
+
   padding:15px;
+
   font-size:18px;
+
   border-radius:16px;
+
   border:2px solid #eee;
+
   outline:none;
+
   text-align:center;
+
 }
 
 .wordBox input:focus{
+
   border-color:#ff9ad5;
+
 }
 
 .hintButton{
+
   display:none;
+
   margin-top:8px;
+
   font-size:13px;
+
   color:#4dabf7;
+
   text-decoration:underline;
+
   font-weight:bold;
+
 }
 
 .hint{
+
   margin-top:8px;
+
   min-height:20px;
+
   font-size:12px;
-  color:#ff4f8b;
+
   font-weight:bold;
+
 }
 
 button{
+
   width:100%;
+
   border:none;
+
   border-radius:999px;
+
   padding:16px;
+
   font-size:18px;
+
   font-weight:bold;
+
   color:white;
-  background:linear-gradient(90deg,#ff4f8b,#ff8f3c);
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff4f8b,
+      #ff8f3c
+    );
+
 }
 
-#finalButton{
-  display:none;
-  margin-top:16px;
-}
+
+/* Congratulations */
 
 #clearScreen{
+
   position:fixed;
+
   inset:0;
-  background:rgba(255,255,255,.96);
-  display:flex;
+
+  background:
+    rgba(255,255,255,.96);
+
+  display:none;
+
   justify-content:center;
+
   align-items:center;
+
   z-index:9999;
-  opacity:0;
-  pointer-events:none;
+
 }
 
 #clearScreen.show{
-  opacity:1;
-  transition:.4s;
+
+  display:flex;
+
+}
+
+.clearCard{
+
+  width:90%;
+
+  max-width:420px;
+
+  text-align:center;
+
 }
 
 .mainText{
-  font-size:clamp(34px,8vw,52px);
+
+  font-size:
+    clamp(24px,7vw,48px);
+
+  line-height:1.25;
+
   font-weight:900;
+
   color:#ff4f8b;
-  animation:pop .8s ease;
+
+  animation:
+    pop .8s ease;
+
+}
+
+#finalButton{
+
+  opacity:0;
+
+  margin-top:28px;
+
+  border:none;
+
+  border-radius:999px;
+
+  padding:16px 34px;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff4f8b,
+      #ff8f3c
+    );
+
+}
+
+#finalButton.show{
+
+  animation:
+    fadeButton .8s forwards;
+
 }
 
 @keyframes pop{
+
   0%{
-    transform:scale(.3);
+
+    transform:
+      scale(.3);
+
     opacity:0;
+
   }
+
   70%{
-    transform:scale(1.1);
+
+    transform:
+      scale(1.1);
+
   }
+
   100%{
-    transform:scale(1);
+
+    transform:
+      scale(1);
+
     opacity:1;
+
   }
+
 }
+
+@keyframes fadeButton{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      translateY(15px);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
+
 <div class="wrapper">
 
-<h2>なぞとき</h2>
+<h1>
+  なぞとき
+</h1>
+
 
 <div class="wordBox">
-  <div class="label">謎①の解答</div>
+  <div class="label">謎①のこたえ</div>
   <input id="c1">
-  <div class="hintButton" id="btn1" onclick="showHint(1)">
-    - ヒントを見る -
+  <div
+    class="hintButton"
+    id="btn1"
+    onclick="showHint(1)"
+  >
+    -ヒントを見る-
   </div>
   <div class="hint" id="h1"></div>
 </div>
 
+
 <div class="wordBox">
-  <div class="label">謎②の解答</div>
+  <div class="label">謎②のこたえ</div>
   <input id="c2">
-  <div class="hintButton" id="btn2" onclick="showHint(2)">
-    - ヒントを見る -
+  <div
+    class="hintButton"
+    id="btn2"
+    onclick="showHint(2)"
+  >
+    -ヒントを見る-
   </div>
   <div class="hint" id="h2"></div>
 </div>
 
+
 <div class="wordBox">
-  <div class="label">謎③の解答</div>
+  <div class="label">謎③のこたえ</div>
   <input id="c3">
-  <div class="hintButton" id="btn3" onclick="showHint(3)">
-    - ヒントを見る -
+  <div
+    class="hintButton"
+    id="btn3"
+    onclick="showHint(3)"
+  >
+    -ヒントを見る-
   </div>
   <div class="hint" id="h3"></div>
 </div>
 
+
 <div class="wordBox">
-  <div class="label">謎④の解答</div>
+  <div class="label">謎④のこたえ</div>
   <input id="c4">
-  <div class="hintButton" id="btn4" onclick="showHint(4)">
-    - ヒントを見る -
+  <div
+    class="hintButton"
+    id="btn4"
+    onclick="showHint(4)"
+  >
+    -ヒントを見る-
   </div>
   <div class="hint" id="h4"></div>
 </div>
 
+
 <div class="wordBox">
-  <div class="label">謎⑤の解答</div>
+  <div class="label">謎⑤のこたえ</div>
   <input id="c5">
-  <div class="hintButton" id="btn5" onclick="showHint(5)">
-    - ヒントを見る -
+  <div
+    class="hintButton"
+    id="btn5"
+    onclick="showHint(5)"
+  >
+    -ヒントを見る-
   </div>
   <div class="hint" id="h5"></div>
 </div>
 
+
 <button onclick="check()">
-  こたえる！
+  こたえを送信
 </button>
 
-<button id="finalButton" onclick="goFinal()">
-  最後の問題へ
-</button>
 
 </div>
+
 
 
 <div id="clearScreen">
-  <div class="mainText">
-    🎉 Congratulations! 🎉
+
+  <div class="clearCard">
+
+    <div class="mainText">
+      🎉 Congratulations! 🎉
+    </div>
+
+    <button
+      id="finalButton"
+      onclick="goFinal()"
+    >
+      最後の問題へ
+    </button>
+
   </div>
+
 </div>
+
 
 
 <script>
 
+
 const correct = [
+
   "えがお",
+
   "とくべつ",
+
   "こうふく",
+
   "ふたり",
+
   "あかし"
+
 ];
+
+
 
 const hints = [
+
   "① 右から時計回り",
+
   "② 矢印の通り道",
+
   "③ 7×7、8×8、4×8",
+
   "④ 上下左右に注目",
+
   "⑤ もう一回"
+
 ];
 
+
+
 function hira(str){
+
   return str
     .trim()
-    .replace(/[ァ-ン]/g, s =>
-      String.fromCharCode(s.charCodeAt(0)-0x60)
+    .replace(
+      /[ァ-ン]/g,
+      s =>
+      String
+        .fromCharCode(
+          s.charCodeAt(0)-0x60
+        )
     );
+
 }
+
+
 
 function check(){
 
+
   let score = 0;
 
-  for(let i=1;i<=5;i++){
 
-    document.getElementById("h"+i).innerHTML = "";
 
-    document.getElementById("btn"+i)
-      .style.display = "none";
+  for(
+    let i=1;
+    i<=5;
+    i++
+  ){
+
+    document
+      .getElementById(
+        "h"+i
+      )
+      .innerHTML = "";
+
+    document
+      .getElementById(
+        "btn"+i
+      )
+      .style.display =
+      "none";
 
   }
 
+
+
   const input = [
+
     hira(c1.value),
+
     hira(c2.value),
+
     hira(c3.value),
+
     hira(c4.value),
+
     hira(c5.value)
+
   ];
 
-  for(let i=0;i<5;i++){
+
+
+  for(
+    let i=0;
+    i<5;
+    i++
+  ){
+
 
     const hintArea =
-      document.getElementById("h"+(i+1));
+      document
+      .getElementById(
+        "h"+(i+1)
+      );
+
 
     const hintButton =
-      document.getElementById("btn"+(i+1));
+      document
+      .getElementById(
+        "btn"+(i+1)
+      );
 
-    if(input[i] === correct[i]){
+
+
+    if(
+      input[i]
+      ===
+      correct[i]
+    ){
 
       score++;
 
-      hintArea.innerHTML = "CLEAR";
-      hintArea.style.color = "#20d67b";
+      hintArea
+        .innerHTML =
+        "CLEAR";
+
+      hintArea
+        .style.color =
+        "#20d67b";
+
 
     }else{
 
-      hintButton.style.display = "block";
 
-      hintArea.style.color = "#ff4f8b";
+      hintButton
+        .style.display =
+        "block";
+
+      hintArea
+        .style.color =
+        "#ff4f8b";
 
     }
 
   }
 
-  if(score === 5){
+
+
+  if(
+    score===5
+  ){
 
     showCongratulations();
 
   }
 
+
 }
+
+
 
 function showHint(num){
 
-  document.getElementById("h"+num)
-    .innerHTML = hints[num-1];
+  document
+    .getElementById(
+      "h"+num
+    )
+    .innerHTML =
+    hints[num-1];
 
 }
+
+
 
 function showCongratulations(){
 
-  document
-    .getElementById("clearScreen")
-    .classList.add("show");
+
+  const screen =
+    document
+    .getElementById(
+      "clearScreen"
+    );
+
+
+  const button =
+    document
+    .getElementById(
+      "finalButton"
+    );
+
+
+  screen
+    .classList
+    .add(
+      "show"
+    );
+
 
   setTimeout(()=>{
 
-    document
-      .getElementById("finalButton")
-      .style.display = "block";
+    button
+      .classList
+      .add(
+        "show"
+      );
 
-  },2500);
+  },1000);
+
 
 }
+
+
 
 function goFinal(){
 
-  location.href = "final.html";
+  location.href =
+    "final.html";
 
 }
+
 
 </script>
 
