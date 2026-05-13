@@ -203,13 +203,25 @@ button{
   text-align:center;
 
 }
+  
+  .mainText{
 
-.mainText{
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:10px;
+
+  flex-wrap:nowrap;
+
+  white-space:nowrap;
 
   font-size:
-    clamp(24px,7vw,48px);
+    clamp(26px,7vw,46px);
 
-  line-height:1.25;
+  line-height:1;
 
   font-weight:900;
 
@@ -219,6 +231,7 @@ button{
     pop .8s ease;
 
 }
+
 
 #finalButton{
 
@@ -402,8 +415,14 @@ button{
   <div class="clearCard">
 
     <div class="mainText">
-      🎉 Congratulations! 🎉
-    </div>
+
+  <span>🎊</span>
+
+  CLEAR!
+
+  <span>🎊</span>
+
+</div>
 
     <button
       id="finalButton"
