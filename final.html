@@ -366,6 +366,18 @@ const correct = [
 
 
 
+const ids = [
+
+  "a1",
+  "a2",
+  "a3",
+  "a4",
+  "a5"
+
+];
+
+
+
 /* ========= ID取得 ========= */
 
 const params =
@@ -422,19 +434,7 @@ function showHint(){
 
 
 
-/* ========= Android/iPhone対応 ========= */
-
-const ids = [
-
-  "a1",
-  "a2",
-  "a3",
-  "a4",
-  "a5"
-
-];
-
-
+/* ========= Android / iPhone対応 ========= */
 
 ids.forEach((id,i)=>{
 
@@ -555,6 +555,28 @@ ids.forEach((id,i)=>{
 function checkFinal(){
 
 
+  const submitButton =
+
+    document
+      .getElementById(
+        "submitButton"
+      );
+
+
+
+  /* 連打防止 */
+
+  submitButton.disabled =
+    true;
+
+
+
+  submitButton.innerHTML =
+
+    "送信中...";
+
+
+
   const input =
 
     ids.map(
@@ -632,6 +654,17 @@ function checkFinal(){
 
 
   }else{
+
+
+    submitButton.disabled =
+      false;
+
+
+
+    submitButton.innerHTML =
+
+      "こたえを送信";
+
 
 
     document
