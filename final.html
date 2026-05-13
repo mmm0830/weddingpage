@@ -566,25 +566,17 @@ ids.forEach((id,i)=>{
 
 function checkFinal(){
 
-
   const submitButton =
+    document.getElementById(
+      "submitButton"
+    );
 
-    document
-      .getElementById(
-        "submitButton"
-      );
-
-
-
-  /* 連打防止だけ */
 
   submitButton.disabled =
     true;
 
 
-
   const input =
-
     ids.map(
 
       id =>
@@ -592,9 +584,7 @@ function checkFinal(){
       hira(
 
         document
-          .getElementById(
-            id
-          )
+          .getElementById(id)
           .value
 
       )
@@ -605,20 +595,16 @@ function checkFinal(){
 
   if(
 
-    JSON.stringify(
-      input
-    )
+    JSON.stringify(input)
 
     ===
 
-    JSON.stringify(
-      correct
-    )
+    JSON.stringify(correct)
 
   ){
 
 
-    fetch(
+    const url =
 
       GAS_URL
 
@@ -628,7 +614,9 @@ function checkFinal(){
 
       +
 
-      userId
+      encodeURIComponent(
+        userId
+      )
 
       +
 
@@ -641,15 +629,34 @@ function checkFinal(){
       +
 
       encodeURIComponent(
-
         navigator.userAgent
+      );
 
-      )
 
+
+    /* ← デバッグ用 */
+    console.log(url);
+
+
+
+    fetch(
+      url
     )
 
-    .finally(()=>{
+    .then(()=>{
 
+
+      location.href =
+
+        "ending.html";
+
+
+    })
+
+    .catch(()=>{
+
+
+      /* 通信失敗でも進める */
 
       location.href =
 
@@ -682,7 +689,6 @@ function checkFinal(){
         "hintButton"
       )
       .style.display =
-
       "block";
 
 
