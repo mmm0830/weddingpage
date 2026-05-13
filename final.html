@@ -577,50 +577,59 @@ function checkFinal(){
 
   if(
 
-    JSON.stringify(
-      input
+  JSON.stringify(input)
+
+  ===
+
+  JSON.stringify(correct)
+
+){
+
+
+  fetch(
+
+    GAS_URL
+
+    +
+
+    "?id="
+
+    +
+
+    userId
+
+    +
+
+    "&point=final"
+
+    +
+
+    "&ua="
+
+    +
+
+    encodeURIComponent(
+
+      navigator.userAgent
+
     )
 
-    ===
-
-    JSON.stringify(
-      correct
-    )
-
-  ){
+  );
 
 
-    /* スプシ送信 */
 
-    fetch(
+  setTimeout(()=>{
 
-      GAS_URL
 
-      +
+    location.href =
 
-      "?id="
+      "ending.html";
 
-      +
 
-      userId
+  },300);
 
-      +
 
-      "&point=final"
-
-      +
-
-      "&ua="
-
-      +
-
-      encodeURIComponent(
-
-        navigator.userAgent
-
-      )
-
-    );
+}
 
 
 
