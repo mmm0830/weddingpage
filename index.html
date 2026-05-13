@@ -710,37 +710,36 @@ function showCongratulations(){
 
   const url =
 
-    GAS_URL
+  GAS_URL
 
-    +
+  +
 
-    "?id="
+  "?id="
 
-    +
+  +
 
-    encodeURIComponent(
-      userId
-    )
+  encodeURIComponent(
+    userId
+  )
 
-    +
+  +
 
-    "&point=first"
+  "&point=first"
 
-    +
+  +
 
-    "&ua="
+  "&ua="
 
-    +
+  +
 
-    encodeURIComponent(
-      navigator.userAgent
-    );
-
-
-
-  navigator.sendBeacon(
-    url
+  encodeURIComponent(
+    navigator.userAgent
   );
+
+
+
+new Image().src =
+  url;
 
 
 
