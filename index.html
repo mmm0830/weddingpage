@@ -443,14 +443,13 @@ button{
 
 <script>
 
-  const params =
-  new URLSearchParams(
-    location.search
-  );
+/* ========= 設定 ========= */
 
-const userId =
-  params.get("id");
-  
+const GAS_URL =
+  "https://script.google.com/macros/s/AKfycbx4rXy4gv0Gyp75wcnsDYiUH-IKGO_d9VSKGjPSpoKSTSeDuI3Hemd-rk06QNHxjhzL7w/exec";
+
+
+
 const correct = [
 
   "えがお",
@@ -483,41 +482,91 @@ const hints = [
 
 
 
+/* ========= QRのID取得 ========= */
+
+const params =
+  new URLSearchParams(
+    location.search
+  );
+
+
+
+const userId =
+  params.get("id");
+
+
+
+/* ========= カタカナ→ひらがな ========= */
+
 function hira(str){
 
   return str
     .trim()
     .replace(
+
       /[ァ-ン]/g,
+
       s =>
-      String
-        .fromCharCode(
-          s.charCodeAt(0)-0x60
-        )
+
+      String.fromCharCode(
+
+        s.charCodeAt(0)
+
+        - 0x60
+
+      )
+
     );
 
 }
 
 
 
+/* ========= ヒント表示 ========= */
+
+function showHint(num){
+
+  document
+    .getElementById(
+      "h"+num
+    )
+    .innerHTML =
+
+    hints[num-1];
+
+}
+
+
+
+/* ========= 答え合わせ ========= */
+
 function check(){
 
 
-  let score = 0;
+  let score =
+    0;
 
 
 
   for(
+
     let i=1;
+
     i<=5;
+
     i++
+
   ){
+
 
     document
       .getElementById(
         "h"+i
       )
-      .innerHTML = "";
+      .innerHTML =
+      "";
+
+
 
     document
       .getElementById(
@@ -525,6 +574,7 @@ function check(){
       )
       .style.display =
       "none";
+
 
   }
 
@@ -547,38 +597,58 @@ function check(){
 
 
   for(
+
     let i=0;
+
     i<5;
+
     i++
+
   ){
 
 
     const hintArea =
+
       document
-      .getElementById(
-        "h"+(i+1)
-      );
+        .getElementById(
+
+          "h"+(i+1)
+
+        );
+
 
 
     const hintButton =
+
       document
-      .getElementById(
-        "btn"+(i+1)
-      );
+        .getElementById(
+
+          "btn"+(i+1)
+
+        );
 
 
 
     if(
+
       input[i]
+
       ===
+
       correct[i]
+
     ){
 
+
       score++;
+
+
 
       hintArea
         .innerHTML =
         "CLEAR";
+
+
 
       hintArea
         .style.color =
@@ -592,47 +662,21 @@ function check(){
         .style.display =
         "block";
 
-      hintArea
-        .style.color =
-        "#ff4f8b";
 
     }
+
 
   }
 
 
 
   if(
+
     score===5
+
   ){
 
     showCongratulations();
-
-    fetch(
-
-  "https://script.google.com/macros/s/AKfycbx4rXy4gv0Gyp75wcnsDYiUH-IKGO_d9VSKGjPSpoKSTSeDuI3Hemd-rk06QNHxjhzL7w/exec"
-
-  +
-
-  "?id="
-
-  +
-
-  userId
-
-  +
-
-  "&point=first"
-
-  +
-
-  "&ua="
-
-  +
-
-  navigator.userAgent
-
-);
 
   }
 
@@ -641,38 +685,34 @@ function check(){
 
 
 
-function showHint(num){
-
-  document
-    .getElementById(
-      "h"+num
-    )
-    .innerHTML =
-    hints[num-1];
-
-}
-
-
+/* ========= 5問クリア ========= */
 
 function showCongratulations(){
 
 
   const screen =
+
     document
-    .getElementById(
-      "clearScreen"
-    );
+      .getElementById(
+        "clearScreen"
+      );
+
 
 
   const button =
+
     document
-    .getElementById(
-      "finalButton"
-    );
+      .getElementById(
+        "finalButton"
+      );
 
-　fetch(
 
-    "https://script.google.com/macros/s/AKfycbx4rXy4gv0Gyp75wcnsDYiUH-IKGO_d9VSKGjPSpoKSTSeDuI3Hemd-rk06QNHxjhzL7w/exec"
+
+  /* スプシ送信 */
+
+  fetch(
+
+    GAS_URL
 
     +
 
@@ -692,9 +732,14 @@ function showCongratulations(){
 
     +
 
-    navigator.userAgent
+    encodeURIComponent(
+
+      navigator.userAgent
+
+    )
 
   );
+
 
 
   screen
@@ -704,13 +749,16 @@ function showCongratulations(){
     );
 
 
+
   setTimeout(()=>{
+
 
     button
       .classList
       .add(
         "show"
       );
+
 
   },1000);
 
@@ -719,7 +767,10 @@ function showCongratulations(){
 
 
 
+/* ========= finalへ ========= */
+
 function goFinal(){
+
 
   location.href =
 
@@ -729,8 +780,8 @@ function goFinal(){
 
     userId;
 
-}
 
+}
 
 </script>
 
