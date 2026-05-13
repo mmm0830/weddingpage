@@ -19,30 +19,19 @@ body{
 
   margin:0;
 
-  overflow:hidden;
-
   min-height:100vh;
+
+  overflow-x:hidden;
+
+  overflow-y:auto;
 
   display:flex;
 
   justify-content:center;
 
-  align-items:center;
+  align-items:flex-start;
 
-  padding:24px;
-
-  font-family:
-    "Hiragino Sans",
-    "Yu Gothic",
-    sans-serif;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ffe6f4,
-      #fff7b0,
-      #b9f4ff
-    );
+  padding:40px 24px;
 
 }
 
@@ -75,6 +64,10 @@ canvas{
   max-width:640px;
 
   text-align:center;
+
+  margin:auto;
+
+  padding-bottom:40px;
 
 }
 
@@ -590,15 +583,11 @@ animate();
 
 
 
-/* 2秒で紙吹雪終了 */
+/* 4秒で紙吹雪終了 */
 
 setTimeout(()=>{
 
-
-  running =
-    false;
-
-
+  running = false;
 
   ctx.clearRect(
 
@@ -610,8 +599,25 @@ setTimeout(()=>{
 
   );
 
+},4000);
 
-},2000);
+
+
+
+/* 少し余韻を作ってから表示 */
+
+setTimeout(()=>{
+
+  document
+    .getElementById(
+      "message"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+},4300);
 
 
 
