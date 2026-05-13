@@ -613,48 +613,45 @@ function checkFinal(){
 
     const url =
 
-      GAS_URL
+  GAS_URL
 
-      +
+  +
 
-      "?id="
+  "?id="
 
-      +
+  +
 
-      encodeURIComponent(
-        userId
-      )
+  encodeURIComponent(
+    userId
+  )
 
-      +
+  +
 
-      "&point=final"
+  "&point=final"
 
-      +
+  +
 
-      "&ua="
+  "&ua="
 
-      +
+  +
 
-      encodeURIComponent(
-        navigator.userAgent
-      );
-
-
-
-    /* Safari/Androidで一番安定 */
-    navigator.sendBeacon(
-      url
-    );
+  encodeURIComponent(
+    navigator.userAgent
+  );
 
 
 
-    setTimeout(()=>{
+new Image().src =
+  url;
 
-      location.href =
 
-        "ending.html";
 
-    },300);
+setTimeout(()=>{
+
+  location.href =
+    "ending.html";
+
+},300);
 
 
 
