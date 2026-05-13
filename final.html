@@ -2,7 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>最後の問題</title>
 
@@ -13,14 +16,17 @@
 }
 
 body{
+
   margin:0;
 
   min-height:100vh;
 
   display:flex;
+
   flex-direction:column;
 
   justify-content:center;
+
   align-items:center;
 
   padding:20px;
@@ -37,7 +43,10 @@ body{
       #fff7b0,
       #b9f4ff
     );
+
 }
+
+
 
 .title{
 
@@ -50,6 +59,8 @@ body{
   color:#ff4f8b;
 
 }
+
+
 
 .container{
 
@@ -67,6 +78,7 @@ body{
 }
 
 
+
 /* 枠 */
 
 .box{
@@ -81,14 +93,9 @@ body{
 
   background:white;
 
-  box-shadow:
-    0 8px 16px
-    rgba(0,0,0,.08);
-
 }
 
 
-/* 入力文字 */
 
 .box input{
 
@@ -111,7 +118,6 @@ body{
 }
 
 
-/* 左上数字 */
 
 .number{
 
@@ -138,42 +144,42 @@ body{
 /* 色 */
 
 .red{
-  border-color:#ff6b6b;
+  border-color:#f4a7b9;
 }
 .red .number{
-  color:#ff6b6b;
+  color:#e8899d;
 }
 
 
 .blue{
-  border-color:#4dabf7;
+  border-color:#9fcaf7;
 }
 .blue .number{
-  color:#4dabf7;
+  color:#79afe8;
 }
 
 
 .yellow{
-  border-color:#f7b801;
+  border-color:#f6dd8b;
 }
 .yellow .number{
-  color:#f7b801;
+  color:#d9b13f;
 }
 
 
 .green{
-  border-color:#51cf66;
+  border-color:#9fd9b0;
 }
 .green .number{
-  color:#51cf66;
+  color:#68b07e;
 }
 
 
 .purple{
-  border-color:#b197fc;
+  border-color:#c8b2f2;
 }
 .purple .number{
-  color:#b197fc;
+  color:#9d83d7;
 }
 
 
@@ -181,6 +187,8 @@ body{
 /* ヒント */
 
 .hintButton{
+
+  display:none;
 
   margin-top:22px;
 
@@ -193,6 +201,8 @@ body{
   font-weight:bold;
 
 }
+
+
 
 .hint{
 
@@ -234,10 +244,6 @@ body{
       #ff4f8b,
       #ff8f3c
     );
-
-  box-shadow:
-    0 10px 20px
-    rgba(0,0,0,.12);
 
 }
 
@@ -307,10 +313,12 @@ body{
 
 <div
   class="hintButton"
+  id="hintButton"
   onclick="showHint()"
 >
   -ヒントを見る-
 </div>
+
 
 
 <div
@@ -340,13 +348,9 @@ body{
 const correct = [
 
   "あ",
-
   "り",
-
   "が",
-
   "と",
-
   "う"
 
 ];
@@ -370,6 +374,8 @@ function hira(str){
 
 
 
+/* ヒント */
+
 function showHint(){
 
   document
@@ -383,16 +389,14 @@ function showHint(){
 
 
 
+/* 自動送り */
+
 const ids = [
 
   "a1",
-
   "a2",
-
   "a3",
-
   "a4",
-
   "a5"
 
 ];
@@ -461,7 +465,6 @@ ids.forEach((id,i)=>{
 
     ){
 
-
       setTimeout(()=>{
 
         document
@@ -471,7 +474,6 @@ ids.forEach((id,i)=>{
           .focus();
 
       },80);
-
 
     }
 
@@ -500,6 +502,7 @@ function checkFinal(){
           .value
 
       )
+
     );
 
 
@@ -523,12 +526,23 @@ function checkFinal(){
 
   }else{
 
+
     document
       .getElementById(
         "message"
       )
       .innerHTML =
       "ちがうみたい…";
+
+
+
+    document
+      .getElementById(
+        "hintButton"
+      )
+      .style.display =
+      "block";
+
 
   }
 
