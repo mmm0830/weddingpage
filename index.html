@@ -708,9 +708,7 @@ function showCongratulations(){
 
 
 
-  /* スプシ送信 */
-
-  fetch(
+  const url =
 
     GAS_URL
 
@@ -720,7 +718,9 @@ function showCongratulations(){
 
     +
 
-    userId
+    encodeURIComponent(
+      userId
+    )
 
     +
 
@@ -733,11 +733,13 @@ function showCongratulations(){
     +
 
     encodeURIComponent(
-
       navigator.userAgent
+    );
 
-    )
 
+
+  navigator.sendBeacon(
+    url
   );
 
 
