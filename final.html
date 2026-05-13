@@ -347,6 +347,13 @@ body{
 
 <script>
 
+const params =
+  new URLSearchParams(
+    location.search
+  );
+
+const userId =
+  params.get("id");
 
 
 const correct = [
@@ -525,8 +532,34 @@ function checkFinal(){
 
   ){
 
-    location.href =
-      "ending.html";
+    fetch(
+
+  "GASのURL"
+
+  +
+
+  "?id="
+
+  +
+
+  userId
+
+  +
+
+  "&point=final"
+
+  +
+
+  "&ua="
+
+  +
+
+  navigator.userAgent
+
+);
+
+  location.href =
+  "ending.html";
 
   }else{
 
