@@ -577,67 +577,58 @@ function checkFinal(){
 
   if(
 
-  JSON.stringify(input)
+    JSON.stringify(
+      input
+    )
 
-  ===
+    ===
 
-  JSON.stringify(correct)
+    JSON.stringify(
+      correct
+    )
 
-){
+  ){
 
 
-  fetch(
+    fetch(
 
-    GAS_URL
+      GAS_URL
 
-    +
+      +
 
-    "?id="
+      "?id="
 
-    +
+      +
 
-    userId
+      userId
 
-    +
+      +
 
-    "&point=final"
+      "&point=final"
 
-    +
+      +
 
-    "&ua="
+      "&ua="
 
-    +
+      +
 
-    encodeURIComponent(
+      encodeURIComponent(
 
-      navigator.userAgent
+        navigator.userAgent
+
+      )
 
     )
 
-  );
+    .finally(()=>{
 
 
+      location.href =
 
-  setTimeout(()=>{
-
-
-    location.href =
-
-      "ending.html";
+        "ending.html";
 
 
-  },300);
-
-
-}
-
-
-
-    /* エンディングへ */
-
-    location.href =
-
-      "ending.html";
+    });
 
 
   }else{
