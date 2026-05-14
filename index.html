@@ -694,87 +694,24 @@ function check(){
 /* ========= 5問クリア ========= */
 
 function showCongratulations(){
+  const screen = document.getElementById("clearScreen");
+  const button = document.getElementById("finalButton");
 
-  const screen =
-    document.getElementById(
-      "clearScreen"
-    );
+  // CLEARを即表示
+  screen.classList.add("show");
+  setTimeout(() => {
+    button.classList.add("show");
+  }, 1000);
 
-  const button =
-    document.getElementById(
-      "finalButton"
-    );
+  // GAS送信はバックグラウンドで
+  const url = GAS_URL
+    + "?id=" + encodeURIComponent(userId || "guest")
+    + "&point=first"
+    + "&ua=" + encodeURIComponent(navigator.userAgent);
 
-
-
-  const url =
-
-    GAS_URL
-
-    +
-
-    "?id="
-
-    +
-
-    encodeURIComponent(
-      userId || "guest"
-    )
-
-    +
-
-    "&point=first"
-
-    +
-
-    "&ua="
-
-    +
-
-    encodeURIComponent(
-      navigator.userAgent
-    );
-
-
-
-  fetch(
-    url,
-    {
-      method:"GET",
-      mode:"no-cors"
-    }
-  )
-
-  .catch(()=>{})
-
-  .finally(()=>{
-
-
-    screen
-      .classList
-      .add(
-        "show"
-      );
-
-
-
-    setTimeout(()=>{
-
-
-      button
-        .classList
-        .add(
-          "show"
-        );
-
-
-    },1000);
-
-
-  });
-
-
+  fetch(url, { method:"GET", mode:"no-cors" }).catch(()=>{});
 }
+
 
 
 
