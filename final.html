@@ -619,11 +619,12 @@ function checkFinal(){
   + "&ua=" + encodeURIComponent(navigator.userAgent);
 
 // 先にページ遷移、送信はバックグラウンド
-fetch(url, { method:"GET", mode:"no-cors" }).catch(()=>{});
+fetch(url, { method:"GET", mode:"no-cors" })
+  .catch(()=>{})
+  .finally(()=>{
+    location.href = "ending.html";
+  });
 
-setTimeout(()=>{
-  location.href = "ending.html";
-}, 800);
 
 
 
