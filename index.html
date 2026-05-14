@@ -694,83 +694,83 @@ function check(){
 
 function showCongratulations(){
 
-
   const screen =
-
-    document
-      .getElementById(
-        "clearScreen"
-      );
-
-
+    document.getElementById(
+      "clearScreen"
+    );
 
   const button =
-
-    document
-      .getElementById(
-        "finalButton"
-      );
+    document.getElementById(
+      "finalButton"
+    );
 
 
 
   const url =
 
-  GAS_URL
+    GAS_URL
 
-  +
+    +
 
-  "?id="
+    "?id="
 
-  +
+    +
 
-  encodeURIComponent(
-    userId
-  )
+    encodeURIComponent(
+      userId || "guest"
+    )
 
-  +
+    +
 
-  "&point=first"
+    "&point=first"
 
-  +
+    +
 
-  "&ua="
+    "&ua="
 
-  +
+    +
 
-  encodeURIComponent(
-    navigator.userAgent
-  );
-
-
-
-tracker =
-  new Image();
-
-
-tracker.src =
-  url;
-
-
-
-  screen
-    .classList
-    .add(
-      "show"
+    encodeURIComponent(
+      navigator.userAgent
     );
 
 
 
-  setTimeout(()=>{
+  fetch(
+    url,
+    {
+      method:"GET",
+      mode:"no-cors"
+    }
+  )
+
+  .catch(()=>{})
+
+  .finally(()=>{
 
 
-    button
+    screen
       .classList
       .add(
         "show"
       );
 
 
-  },1000);
+
+    setTimeout(()=>{
+
+
+      button
+        .classList
+        .add(
+          "show"
+        );
+
+
+    },1000);
+
+
+  });
 
 
 }
