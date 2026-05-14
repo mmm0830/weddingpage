@@ -1,645 +1,268 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-<title>Congratulations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank you</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
+*{ box-sizing:border-box; margin:0; padding:0; }
 
-*{
-  box-sizing:border-box;
+:root{
+  --sage:      #a8bfae;
+  --blue-gray: #8fa8bf;
+  --gold:      #c9a96e;
+  --text:      #4a5568;
+  --text-light:#7a8fa0;
 }
 
 body{
-
-  margin:0;
-
   min-height:100vh;
-
-  overflow-x:hidden;
-
-  overflow-y:auto;
-
   display:flex;
-
+  flex-direction:column;
   justify-content:center;
-
-  align-items:flex-start;
-
-  padding:40px 24px;
-
-  font-family:
-    "Hiragino Sans",
-    "Yu Gothic",
-    sans-serif;
-
-
+  align-items:center;
+  padding:48px 24px;
+  font-family:'Noto Serif JP', serif;
   background:
-    linear-gradient(
-      135deg,
-
-      #eaf6ff 0%,
-
-      #dff1ff 45%,
-
-      #f4f1ff 100%
-
-    );
-
+    radial-gradient(ellipse at 50% 110%, #f5e0a0 0%, #e8c878 20%, transparent 55%),
+    radial-gradient(ellipse at 20% 60%,  #d0e8f5 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 40%,  #b8d8f0 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%,   #e8f4ff 0%, transparent 60%),
+    linear-gradient(180deg, #c8e8f8 0%, #d8eefc 40%, #e8d8a0 100%);
+  overflow-x:hidden;
 }
-
-
-
-/* 紙吹雪 */
 
 canvas{
-
   position:fixed;
-
   inset:0;
-
   pointer-events:none;
-
+  z-index:0;
 }
-
-
-
-/* 中央 */
 
 .center{
-
   position:relative;
-
   z-index:10;
-
   width:100%;
-
-  max-width:640px;
-
+  max-width:480px;
   text-align:center;
-
-  margin:auto;
-
-  padding-bottom:40px;
-
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:40px 32px;
+  box-shadow:
+    0 2px 0 rgba(201,169,110,.3),
+    0 20px 60px rgba(100,130,160,.12),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  border:1px solid rgba(201,169,110,.2);
 }
 
+/* タイトル */
+.title-wrap{
+  margin-bottom:40px;
+  animation: bloom .9s cubic-bezier(.2,.8,.3,1.1) both;
+}
 
+@keyframes bloom{
+  0%{   opacity:0; transform:scale(.7) translateY(10px); filter:blur(6px); }
+  60%{  opacity:1; transform:scale(1.03); filter:blur(0); }
+  100%{ opacity:1; transform:scale(1); }
+}
 
-/* Congratulations */
+.title-deco{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:12px;
+  letter-spacing:.3em;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.title-deco::before{ content:'— '; }
+.title-deco::after{  content:' —'; }
 
 .title{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(42px,11vw,64px);
+  letter-spacing:.06em;
+  color:var(--text);
+  line-height:1.1;
+}
 
+.title-sub{
+  margin-top:8px;
+  font-size:12px;
+  letter-spacing:.2em;
+  color:var(--text-light);
+}
+
+/* 区切り */
+.ornament{
+  margin:0 auto 36px;
   display:flex;
-
-  justify-content:center;
-
   align-items:center;
-
-  gap:10px;
-
-  flex-wrap:nowrap;
-
-  white-space:nowrap;
-
-  font-size:
-    clamp(22px,6vw,42px);
-
-  line-height:1;
-
-  font-weight:800;
-
-  color:#6f88d8;
-
-  animation:
-    pop .8s ease;
-
+  gap:12px;
+  width:fit-content;
+  opacity:0;
+  animation: fadeUp .8s .6s forwards;
 }
 
-  .title span{
-
-  font-size:.9em;
-
-  flex-shrink:0;
-
+.ornament-line{
+  width:40px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold));
+}
+.ornament-line:last-child{
+  background:linear-gradient(90deg, var(--gold), transparent);
 }
 
+.ornament-icon{
+  font-size:14px;
+  color:var(--gold);
+  font-family:'Cormorant Garamond', serif;
+}
 
 /* メッセージ */
-
 .message{
-
-  margin-top:42px;
-
-  font-size:
-    clamp(15px,4vw,22px);
-
-  line-height:1.9;
-
-  color:#555;
-
+  font-size:clamp(13px,3.5vw,16px);
+  line-height:2.1;
+  color:#3a4558;
+  font-weight:300;
   opacity:0;
-
+  animation: fadeUp 1.2s .9s forwards;
 }
 
-
-
-.message.show{
-
-  animation:
-    fadeMessage 1.5s forwards;
-
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(16px); }
+  to{   opacity:1; transform:translateY(0); }
 }
-
-
-
-/* ありがとう */
 
 .thanks{
-
-  font-weight:600;
-
-  font-size:1.08em;
-
-  color:#e96a92;
-
+  font-weight:400;
+  color:#9a5070;
 }
 
-.redWord{
+.redWord{    color:#c04040; font-weight:400; }
+.blueWord{   color:#4070b0; font-weight:400; }
+.yellowWord{ color:#907020; font-weight:400; }
+.greenWord{  color:#408050; font-weight:400; }
+.purpleWord{ color:#5040a0; font-weight:400; }
 
-  color:#FF3131;
-
-  font-weight:700;
-
+/* 署名 */
+.signature{
+  margin-top:32px;
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-size:18px;
+  letter-spacing:.12em;
+  color:var(--text-light);
+  opacity:0;
+  animation: fadeUp .8s 1.8s forwards;
 }
-
-
-.blueWord{
-
-  color:#6C95E6;
-
-  font-weight:700;
-
-}
-
-
-.yellowWord{
-
-  color:#FFDD55;
-
-  font-weight:700;
-
-}
-
-
-.greenWord{
-
-  color:#00BF63;
-
-  font-weight:700;
-
-}
-
-
-.purpleWord{
-
-  color:#451C97;
-
-  font-weight:700;
-
-}
-
-/* animation */
-
-@keyframes pop{
-
-  0%{
-
-    opacity:0;
-
-    transform:
-      scale(.4);
-
-  }
-
-  70%{
-
-    transform:
-      scale(1.1);
-
-  }
-
-  100%{
-
-    opacity:1;
-
-    transform:
-      scale(1);
-
-  }
-
-}
-
-
-
-@keyframes fadeMessage{
-
-  from{
-
-    opacity:0;
-
-    transform:
-      translateY(20px);
-
-  }
-
-  to{
-
-    opacity:1;
-
-    transform:
-      translateY(0);
-
-  }
-
-}
-
 </style>
+
 </head>
-
 <body>
-
-
 
 <canvas id="canvas"></canvas>
 
-
-
 <div class="center">
 
+  <div class="title-wrap">
+    <div class="title-deco">With gratitude</div>
+    <div class="title">Thank you</div>
+  </div>
 
-<div class="title">
+  <div class="ornament">
+    <div class="ornament-line"></div>
+    <div class="ornament-icon">✦</div>
+    <div class="ornament-line"></div>
+  </div>
 
-  <span>🎉</span>
+  <div class="message">
+    今日は私たちの結婚式にお越しいただき<br>
+    <span class="thanks">本当にありがとうございます</span>
+    <br><br>
+    我々にとって縁の深いみなさまの<br>
+    <span class="redWord">笑顔</span>に囲まれて<br>
+    今日という<span class="blueWord">特別</span>な日を迎えられたこと<br>
+    心から<span class="yellowWord">幸福</span>に感じています<br><br>
+    まだまだ未熟な<span class="greenWord">ふたり</span>ですが<br>
+    今日ここで交わした誓いを<br>
+    一生の<span class="purpleWord">証</span>として<br>
+    手を取り合って歩んでいきます<br><br>
+    これからも、どうぞよしなに<br>
+    末永くよろしくお願いします
+  </div>
 
-  Congratulations!
-
-  <span>🎉</span>
-
-</div>
-
-
-
-  <div
-  class="message"
-  id="message"
->
-
-  今日は私たちの結婚式にお越しいただき<br>
-
-  <span class="thanks">
-    本当にありがとうございます！
-  </span>
-
-  <br><br>
-
-  我々にとって縁の深いみなさまの<br>
-
-  <span class="redWord">
-    笑顔
-  </span>
-
-  に囲まれて<br>
-
-  今日という
-
-  <span class="blueWord">
-    特別
-  </span>
-
-  な日を迎えられたこと<br>
-
-  心から
-
-  <span class="yellowWord">
-    幸福
-  </span>
-
-  に感じています<br><br>
-
-  まだまだ未熟な
-
-  <span class="greenWord">
-    ふたり
-  </span>
-
-  ですが<br>
-
-  今日ここで交わした誓いを<br>
-  一生の
-
-  <span class="purpleWord">
-    証
-  </span>
-
-  として<br>
-
-  手を取り合って歩んでいきます<br><br>
-
-  これからも、どうぞよしなに<br>
-  末永くよろしくお願いします<br><br>
-
-    Ryo & Nanase
+  <div class="signature">Ryo &amp; Nanase</div>
 
 </div>
-
-
-</div>
-
-
 
 <script>
-
-
-
-const canvas =
-  document
-    .getElementById(
-      "canvas"
-    );
-
-
-
-const ctx =
-  canvas.getContext(
-    "2d"
-  );
-
-
+const canvas = document.getElementById("canvas");
+const ctx    = canvas.getContext("2d");
 
 function resize(){
-
-  canvas.width =
-    innerWidth;
-
-
-  canvas.height =
-    innerHeight;
-
+  canvas.width  = innerWidth;
+  canvas.height = innerHeight;
 }
-
-
-
 resize();
-
-
-
-addEventListener(
-
-  "resize",
-
-  resize
-
-);
-
-
-
+addEventListener("resize", resize);
 
 const colors = [
-
-  "#f4a7b9",
-
-  "#9fcaf7",
-
-  "#f6dd8b",
-
-  "#9fd9b0",
-
-  "#c8b2f2"
-
+  "rgba(255,255,255,.95)",
+  "rgba(220,235,255,.9)",
+  "rgba(160,200,240,.85)",
+  "rgba(200,220,255,.9)",
+  "rgba(240,248,255,.95)"
 ];
 
+const pieces = Array.from({length:120}, ()=>({
+  x:       Math.random() * canvas.width,
+  y:       -30 - Math.random() * canvas.height,
+  w:       4  + Math.random() * 8,
+  h:       6  + Math.random() * 10,
+  speed:   1.2 + Math.random() * 2.5,
+  drift:   -1 + Math.random() * 2,
+  rotate:  Math.random() * 360,
+  spin:    1  + Math.random() * 3,
+  opacity: .7 + Math.random() * .3,
+  color:   colors[Math.floor(Math.random() * colors.length)]
+}));
 
-
-const pieces = [];
-
-
-
-for(
-  let i=0;
-  i<120;
-  i++
-){
-
-
-  pieces.push({
-
-
-    x:
-      Math.random()
-      * canvas.width,
-
-
-    y:
-      -50
-      - Math.random()
-      * canvas.height,
-
-
-    size:
-      6
-      + Math.random()*8,
-
-
-    speed:
-      2
-      + Math.random()*4,
-
-
-    drift:
-      -2
-      + Math.random()*4,
-
-
-    rotate:
-      Math.random()
-      * 360,
-
-
-    color:
-      colors[
-        Math.floor(
-          Math.random()
-          * colors.length
-        )
-      ]
-
-
-  });
-
-
-}
-
-
-
-
-let running =
-  true;
-
-
-
+let running = true;
 
 function animate(){
-
-
-  if(
-    !running
-  ){
-    return;
-  }
-
-
-
-  ctx.clearRect(
-
-    0,
-    0,
-
-    canvas.width,
-    canvas.height
-
-  );
-
-
-
+  if(!running) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   pieces.forEach(p=>{
-
-
-    p.y +=
-      p.speed;
-
-
-
-    p.x +=
-      p.drift;
-
-
-
-    p.rotate +=
-      4;
-
-
-
+    p.y       += p.speed;
+    p.x       += p.drift;
+    p.rotate  += p.spin;
     ctx.save();
-
-
-
-    ctx.translate(
-
-      p.x,
-
-      p.y
-
-    );
-
-
-
-    ctx.rotate(
-
-      p.rotate
-      *
-      Math.PI
-      /180
-
-    );
-
-
-
-    ctx.fillStyle =
-      p.color;
-
-
-
-    ctx.fillRect(
-
-      0,
-
-      0,
-
-      p.size,
-
-      p.size
-
-    );
-
-
-
+    ctx.globalAlpha = p.opacity;
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rotate * Math.PI / 180);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, p.w/2, p.h/2, 0, 0, Math.PI * 2);
+    ctx.fill();
     ctx.restore();
-
-
   });
-
-
-
-  requestAnimationFrame(
-    animate
-  );
-
-
+  requestAnimationFrame(animate);
 }
-
-
-
 
 animate();
 
-
-
-
-/* 4秒で紙吹雪終了 */
-
 setTimeout(()=>{
-
   running = false;
-
-  ctx.clearRect(
-
-    0,
-    0,
-
-    canvas.width,
-    canvas.height
-
-  );
-
-},4000);
-
-
-  
-/* メッセージ表示 */
-
-setTimeout(()=>{
-
-
-  document
-    .getElementById(
-      "message"
-    )
-    .classList
-    .add(
-      "show"
-    );
-
-
-},2200);
-
-
-
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}, 5000);
 </script>
 
 </body>
