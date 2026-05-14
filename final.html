@@ -1,665 +1,314 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>最後の問題</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
+*{ box-sizing:border-box; margin:0; padding:0; }
 
-*{
-  box-sizing:border-box;
+:root{
+  --sage:      #a8bfae;
+  --sage-light:#d4e4d8;
+  --blue-gray: #8fa8bf;
+  --mist:      #c8d8e8;
+  --cream:     #f7f4f0;
+  --gold:      #c9a96e;
+  --text:      #4a5568;
+  --text-light:#7a8fa0;
 }
 
 body{
-
-  margin:0;
-
   min-height:100vh;
-
   display:flex;
-
   flex-direction:column;
-
   justify-content:center;
-
   align-items:center;
-
-  padding:20px;
-
-  font-family:
-    "Hiragino Sans",
-    "Yu Gothic",
-    sans-serif;
-
+  padding:32px 20px;
+  font-family:'Noto Serif JP', serif;
   background:
-  linear-gradient(
-    135deg,
-
-    #eaf6ff 0%,
-
-    #dff1ff 45%,
-
-    #f4f1ff 100%
-
-  );
-
+    radial-gradient(ellipse at 50% 110%, #f5e0a0 0%, #e8c878 20%, transparent 55%),
+    radial-gradient(ellipse at 20% 60%,  #d0e8f5 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 40%,  #b8d8f0 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%,   #e8f4ff 0%, transparent 60%),
+    linear-gradient(180deg, #c8e8f8 0%, #d8eefc 40%, #e8d8a0 100%);
+  animation: fadeUp .8s ease both;
 }
 
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(16px); }
+  to{   opacity:1; transform:translateY(0); }
+}
 
+.card{
+  width:100%;
+  max-width:420px;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:36px 28px 32px;
+  box-shadow:
+    0 2px 0 rgba(201,169,110,.3),
+    0 20px 60px rgba(100,130,160,.12),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  border:1px solid rgba(201,169,110,.2);
+  position:relative;
+  text-align:center;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:0; left:10%; right:10%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  border-radius:999px;
+}
+
+.title-deco{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:11px;
+  letter-spacing:.25em;
+  color:var(--gold);
+  margin-bottom:6px;
+}
+.title-deco::before{ content:'— '; }
+.title-deco::after{  content:' —'; }
 
 .title{
-
-  margin-bottom:26px;
-
-  font-size:28px;
-
-  font-weight:bold;
-
-  color:#6f88d8;
-
+  font-family:'Cormorant Garamond', serif;
+  font-weight:300;
+  font-size:30px;
+  letter-spacing:.12em;
+  color:var(--text);
+  margin-bottom:24px;
 }
 
+.divider{
+  width:40px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--sage), transparent);
+  margin:0 auto 24px;
+}
 
-
+/* グリッド */
 .container{
-
-  width:100%;
-
-  max-width:380px;
-
   display:grid;
-
-  grid-template-columns:
-    repeat(5,1fr);
-
+  grid-template-columns: repeat(5,1fr);
   gap:8px;
-
+  justify-items:center;
+  margin-bottom:24px;
 }
-
-
-
-/* 枠 */
 
 .box{
-
   position:relative;
-
-  width:56px;
-
-  height:56px;
-
-  margin:4px;
-
-  border-width:4px;
-
+  width:52px;
+  height:58px;
+  border-width:3px;
   border-style:solid;
-
-  border-radius:16px;
-
-  background:white;
-
-  box-sizing:border-box;
-
-  flex-shrink:0;
-
+  border-radius:14px;
+  background:rgba(247,244,240,.7);
 }
-
-
 
 .box input{
-
   width:100%;
-
   height:100%;
-
   border:none;
-
   outline:none;
-
   background:transparent;
-
   text-align:center;
-
-  font-size:28px;
-
-  font-weight:700;
-
+  font-size:26px;
+  font-family:'Noto Serif JP', serif;
+  font-weight:400;
+  color:var(--text);
   padding:0;
-
+  padding-top:14px;
 }
-
 
 .number{
-
   position:absolute;
-
-  top:4px;
-
-  left:6px;
-
-  font-size:12px;
-
+  top:3px;
+  left:5px;
+  font-size:13px;
+  font-family:'Cormorant Garamond', serif;
   font-weight:700;
-
   line-height:1;
-
 }
 
-
-
-/* 色 */
-
-.red{
-  border-color:#FF3131;
-}
-.red .number{
-  color:#FF3131;
-}
-
-
-.blue{
-  border-color:#6C95E6;
-}
-.blue .number{
-  color:#6C95E6;
-}
-
-
-.yellow{
-  border-color:#FFDD55;
-}
-.yellow .number{
-  color:#FFDD55;
-}
-
-
-.green{
-  border-color:#00BF63;
-}
-.green .number{
-  color:#00BF63;
-}
-
-
-.purple{
-  border-color:#451C97;
-}
-.purple .number{
-  color:#451C97;
-}
-
-
+/* 色はそのまま */
+.red{    border-color:#FF3131; }
+.red    .number{ color:#FF3131; }
+.blue{   border-color:#6C95E6; }
+.blue   .number{ color:#6C95E6; }
+.yellow{ border-color:#FFDD55; }
+.yellow .number{ color:#FFDD55; }
+.green{  border-color:#00BF63; }
+.green  .number{ color:#00BF63; }
+.purple{ border-color:#451C97; }
+.purple .number{ color:#451C97; }
 
 /* ヒント */
-
 .hintButton{
-
   display:none;
-
-  margin-top:22px;
-
-  font-size:13px;
-
-  color:#4dabf7;
-
-  text-decoration:underline;
-
-  font-weight:bold;
-
+  margin-top:16px;
+  font-size:11px;
+  letter-spacing:.1em;
+  color:var(--blue-gray);
+  border-bottom:1px solid var(--mist);
+  cursor:pointer;
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
 }
-
-
 
 .hint{
-
   margin-top:8px;
-
-  min-height:22px;
-
-  font-size:13px;
-
-  font-weight:bold;
-
-  color:#ff4f8b;
-
+  min-height:20px;
+  font-size:12px;
+  letter-spacing:.08em;
+  color:var(--sage);
 }
-
-
 
 /* ボタン */
-
 .answer-btn{
-
-  margin-top:32px;
-
   width:100%;
-
   max-width:260px;
-
-  height:56px;
-
+  height:52px;
   border:none;
-
   border-radius:999px;
-
-  background:#6f88d8;
-
+  background:linear-gradient(135deg, var(--sage) 0%, var(--blue-gray) 100%);
   color:white;
-
-  font-size:18px;
-
-  font-weight:700;
-
+  font-size:13px;
+  font-family:'Cormorant Garamond', serif;
+  letter-spacing:.25em;
   cursor:pointer;
-
-  box-shadow:
-    0 6px 16px
-    rgba(
-      111,
-      136,
-      216,
-      0.25
-    );
-
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 16px rgba(143,168,191,.35);
+  transition:opacity .2s, transform .1s;
 }
 
+.answer-btn::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+}
 
+.answer-btn:active{
+  transform:scale(.98);
+  opacity:.9;
+}
 
 #message{
-
-  margin-top:16px;
-
-  min-height:24px;
-
-  color:#ff4f8b;
-
-  font-weight:bold;
-
+  margin-top:14px;
+  min-height:20px;
+  font-size:12px;
+  letter-spacing:.1em;
+  color:#b08080;
 }
-
 </style>
-</head>
 
+</head>
 <body>
 
+<div class="card">
+  <div class="title-deco">Final Stage</div>
+  <div class="title">最後の問題</div>
+  <div class="divider"></div>
 
+  <div class="container">
+    <div class="box red">
+      <div class="number">1</div>
+      <input id="a1" maxlength="1">
+    </div>
+    <div class="box blue">
+      <div class="number">3</div>
+      <input id="a2" maxlength="1">
+    </div>
+    <div class="box yellow">
+      <div class="number">2</div>
+      <input id="a3" maxlength="1">
+    </div>
+    <div class="box green">
+      <div class="number">1</div>
+      <input id="a4" maxlength="1">
+    </div>
+    <div class="box purple">
+      <div class="number">2</div>
+      <input id="a5" maxlength="1">
+    </div>
+  </div>
 
-<div class="title">
-  最後の問題
+  <div class="hintButton" id="hintButton" onclick="showHint()">hint を見る</div>
+  <div class="hint" id="hint"></div>
+
+  <button class="answer-btn" id="submitButton" type="button" onclick="checkFinal()">
+    答えを送信
+  </button>
+  <div id="message"></div>
 </div>
-
-
-
-<div class="container">
-
-
-  <div class="box red">
-    <div class="number">1</div>
-    <input id="a1" maxlength="1">
-  </div>
-
-
-  <div class="box blue">
-    <div class="number">3</div>
-    <input id="a2" maxlength="1">
-  </div>
-
-
-  <div class="box yellow">
-    <div class="number">2</div>
-    <input id="a3" maxlength="1">
-  </div>
-
-
-  <div class="box green">
-    <div class="number">1</div>
-    <input id="a4" maxlength="1">
-  </div>
-
-
-  <div class="box purple">
-    <div class="number">2</div>
-    <input id="a5" maxlength="1">
-  </div>
-
-
-</div>
-
-
-
-<div
-  class="hintButton"
-  id="hintButton"
-  onclick="showHint()"
->
-  -ヒントを見る-
-</div>
-
-
-
-<div
-  class="hint"
-  id="hint"
-></div>
-
-
-
-<button
-  class="answer-btn"
-  id="submitButton"
-  type="button"
-  onclick="checkFinal()"
->
-  こたえを送信
-</button>
-
-
-
-<div id="message"></div>
-
-
 
 <script>
-
-/* ========= 設定 ========= */
-
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbx4rXy4gv0Gyp75wcnsDYiUH-IKGO_d9VSKGjPSpoKSTSeDuI3Hemd-rk06QNHxjhzL7w/exec";
 
+const correct = ["あ","り","が","と","う"];
+const ids     = ["a1","a2","a3","a4","a5"];
 
-
-const correct = [
-
-  "あ",
-  "り",
-  "が",
-  "と",
-  "う"
-
-];
-
-
-
-const ids = [
-
-  "a1",
-  "a2",
-  "a3",
-  "a4",
-  "a5"
-
-];
-
-
-
-/* ========= ID取得 ========= */
-
-const params =
-  new URLSearchParams(
-    location.search
-  );
-
-
-
-const userId =
-  params.get("id");
-
-
-
-/* ========= カタカナ→ひらがな ========= */
+const params = new URLSearchParams(location.search);
+const userId = params.get("id");
 
 function hira(str){
-
-  return str
-    .trim()
-    .replace(
-
-      /[ァ-ン]/g,
-
-      s =>
-
-      String.fromCharCode(
-
-        s.charCodeAt(0)
-
-        - 0x60
-
-      )
-
-    );
-
+  return str.trim().replace(/[ァ-ン]/g, s => String.fromCharCode(s.charCodeAt(0) - 0x60));
 }
-
-
-
-/* ========= ヒント ========= */
 
 function showHint(){
-
-  document
-    .getElementById(
-      "hint"
-    )
-    .innerHTML =
-
-    "問題の色と答えの数字に注目";
-
+  document.getElementById("hint").innerHTML = "問題の色と答えの数字に注目";
 }
-
-
-
-/* ========= Android / iPhone対応 ========= */
 
 ids.forEach((id,i)=>{
-
-
-  const box =
-
-    document
-      .getElementById(
-        id
-      );
-
-
-
-  let composing =
-    false;
-
-
-
-  box.addEventListener(
-
-    "compositionstart",
-
-    ()=>{
-
-      composing =
-        true;
-
-    }
-
-  );
-
-
-
-  box.addEventListener(
-
-    "compositionend",
-
-    ()=>{
-
-      composing =
-        false;
-
-
-
-      moveNext();
-
-    }
-
-  );
-
-
-
-  box.addEventListener(
-
-    "input",
-
-    ()=>{
-
-
-      if(
-
-        !composing
-
-      ){
-
-        moveNext();
-
-      }
-
-
-    }
-
-  );
-
-
-
+  const box = document.getElementById(id);
+  let composing = false;
+  box.addEventListener("compositionstart", ()=>{ composing = true; });
+  box.addEventListener("compositionend",   ()=>{ composing = false; moveNext(); });
+  box.addEventListener("input", ()=>{ if(!composing) moveNext(); });
   function moveNext(){
-
-
-    if(
-
-      box.value.length > 0
-
-      &&
-
-      i < ids.length-1
-
-    ){
-
-
-      setTimeout(()=>{
-
-
-        document
-          .getElementById(
-
-            ids[i+1]
-
-          )
-          .focus();
-
-
-      },80);
-
-
+    if(box.value.length > 0 && i < ids.length-1){
+      setTimeout(()=>{ document.getElementById(ids[i+1]).focus(); }, 80);
     }
-
-
   }
-
-
 });
 
-
-
-/* ========= 答え合わせ ========= */
-
 function checkFinal(){
-
-  const submitButton =
-    document.getElementById(
-      "submitButton"
-    );
-
-  /* 連打防止 */
-  submitButton.disabled =
-    true;
+  const submitButton = document.getElementById("submitButton");
+  submitButton.disabled = true;
   submitButton.textContent = "送信中...";
 
+  const input = ids.map(id => hira(document.getElementById(id).value));
 
-  const input =
-    ids.map(
+  if(JSON.stringify(input) === JSON.stringify(correct)){
+    const url = GAS_URL
+      + "?id="    + encodeURIComponent(userId)
+      + "&point=final"
+      + "&ua="    + encodeURIComponent(navigator.userAgent);
 
-      id =>
-
-      hira(
-
-        document
-          .getElementById(id)
-          .value
-
-      )
-
-    );
-
-
-
-  if(
-
-    JSON.stringify(input)
-
-    ===
-
-    JSON.stringify(correct)
-
-  ){
-
-
-    const url =
-  GAS_URL
-  + "?id=" + encodeURIComponent(userId)
-  + "&point=final"
-  + "&ua=" + encodeURIComponent(navigator.userAgent);
-
-// 先にページ遷移、送信はバックグラウンド
-fetch(url, { method:"GET", mode:"no-cors" })
-  .catch(()=>{})
-  .finally(()=>{
-    location.href = "ending.html";
-  });
-
-
-
-
-
+    fetch(url, { method:"GET", mode:"no-cors" })
+      .catch(()=>{})
+      .finally(()=>{
+        location.href = "ending.html";
+      });
   }else{
-
-
-    submitButton.disabled =
-      false;
-
-
-
-    document
-      .getElementById(
-        "message"
-      )
-      .innerHTML =
-
-      "ちがうみたい…";
-
-
-
-    document
-      .getElementById(
-        "hintButton"
-      )
-      .style.display =
-      "block";
-
-
+    submitButton.disabled = false;
+    submitButton.textContent = "答えを送信";
+    document.getElementById("message").innerHTML = "ちがうみたい…";
+    document.getElementById("hintButton").style.display = "block";
   }
-
-
 }
-
 </script>
 
 </body>
