@@ -612,46 +612,18 @@ function checkFinal(){
 
 
     const url =
-
   GAS_URL
+  + "?id=" + encodeURIComponent(userId)
+  + "&point=final"
+  + "&ua=" + encodeURIComponent(navigator.userAgent);
 
-  +
-
-  "?id="
-
-  +
-
-  encodeURIComponent(
-    userId
-  )
-
-  +
-
-  "&point=final"
-
-  +
-
-  "&ua="
-
-  +
-
-  encodeURIComponent(
-    navigator.userAgent
-  );
-
-
-
-new Image().src =
-  url;
-
-
+// 先にページ遷移、送信はバックグラウンド
+fetch(url, { method:"GET", mode:"no-cors" }).catch(()=>{});
 
 setTimeout(()=>{
+  location.href = "ending.html";
+}, 300);
 
-  location.href =
-    "ending.html";
-
-},300);
 
 
 
