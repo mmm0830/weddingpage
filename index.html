@@ -3,735 +3,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>なぞとき</title>
+<title>謎解き</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
+*{ box-sizing:border-box; margin:0; padding:0; }
 
-*{
-  box-sizing:border-box;
+:root{
+  --sage:      #a8bfae;
+  --sage-light:#d4e4d8;
+  --blue-gray: #8fa8bf;
+  --mist:      #c8d8e8;
+  --cream:     #f7f4f0;
+  --gold:      #c9a96e;
+  --text:      #4a5568;
+  --text-light:#7a8fa0;
 }
 
 body{
-
-  margin:0;
-
-  font-family:
-    "Hiragino Sans",
-    "Yu Gothic",
-    sans-serif;
-
-  background:
-  linear-gradient(
-    135deg,
-
-    #eaf6ff 0%,
-
-    #dff1ff 45%,
-
-    #f4f1ff 100%
-
-  );
-
   min-height:100vh;
-
   display:flex;
-
   justify-content:center;
-
   align-items:center;
+  padding:32px 20px;
+  font-family:'Noto Serif JP', serif;
+  background:
+    radial-gradient(ellipse at 50% 110%, #f5e0a0 0%, #e8c878 20%, transparent 55%),
+    radial-gradient(ellipse at 20% 60%,  #d0e8f5 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 40%,  #b8d8f0 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%,   #e8f4ff 0%, transparent 60%),
+    linear-gradient(180deg, #c8e8f8 0%, #d8eefc 40%, #e8d8a0 100%);
+  position:relative;
+  overflow-x:hidden;
+}
 
-  padding:20px;
-
+/* 背景の葉っぱ装飾 */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(circle 1px at 15% 25%, var(--sage) 0%, transparent 100%),
+    radial-gradient(circle 1px at 85% 15%, var(--blue-gray) 0%, transparent 100%),
+    radial-gradient(circle 1px at 70% 75%, var(--sage) 0%, transparent 100%),
+    radial-gradient(circle 1px at 25% 80%, var(--blue-gray) 0%, transparent 100%);
+  opacity:.4;
+  pointer-events:none;
 }
 
 .wrapper{
-
   width:100%;
-
   max-width:420px;
-
-  background:white;
-
-  border-radius:30px;
-
-  padding:28px 22px;
-
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:36px 28px 32px;
   box-shadow:
-    0 15px 35px
-    rgba(0,0,0,.12);
+    0 2px 0 rgba(201,169,110,.3),
+    0 20px 60px rgba(100,130,160,.12),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  border:1px solid rgba(201,169,110,.2);
+  position:relative;
+  animation: fadeUp .8s ease both;
+}
 
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(20px); }
+  to{   opacity:1; transform:translateY(0); }
+}
+
+/* 上部ゴールドライン */
+.wrapper::before{
+  content:'';
+  position:absolute;
+  top:0; left:10%; right:10%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  border-radius:999px;
+}
+
+/* タイトルエリア */
+.title-area{
   text-align:center;
+  margin-bottom:28px;
+}
 
+.title-deco{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:11px;
+  letter-spacing:.25em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.title-deco::before,
+.title-deco::after{
+  content:'— ';
+}
+.title-deco::after{
+  content:' —';
 }
 
 h1{
-
-  margin:0 0 20px;
-
-  color:#6f88d8;
-
-  font-size:28px;
-
+  font-family:'Cormorant Garamond', serif;
+  font-weight:300;
+  font-size:34px;
+  letter-spacing:.1em;
+  color:var(--text);
+  line-height:1.2;
 }
 
+h1 em{
+  font-style:italic;
+  color:var(--blue-gray);
+}
+
+.title-sub{
+  margin-top:6px;
+  font-size:11px;
+  letter-spacing:.2em;
+  color:var(--text-light);
+}
+
+/* 区切り線 */
+.divider{
+  width:40px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--sage), transparent);
+  margin:0 auto 24px;
+}
+
+/* 入力エリア */
 .wordBox{
-
-  margin-bottom:18px;
-
+  margin-bottom:14px;
 }
 
 .label{
+  font-size:11px;
+  letter-spacing:.15em;
+  color:var(--text-light);
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
 
-  margin-bottom:8px;
-
-  font-size:18px;
-
-  font-weight:bold;
-
-  color:#555;
-
+.label::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg, var(--sage-light), transparent);
 }
 
 .wordBox input{
-
   width:100%;
-
-  padding:15px;
-
-  font-size:18px;
-
-  border-radius:16px;
-
-  border:2px solid #eee;
-
+  padding:12px 16px;
+  font-size:17px;
+  font-family:'Noto Serif JP', serif;
+  border-radius:10px;
+  border:1.5px solid var(--sage-light);
+  background:rgba(247,244,240,.6);
   outline:none;
-
   text-align:center;
-
+  color:var(--text);
+  transition:border-color .2s, background .2s, box-shadow .2s;
 }
 
 .wordBox input:focus{
-
-  border-color:#ff9ad5;
-
+  border-color:var(--blue-gray);
+  background:white;
+  box-shadow:0 0 0 3px rgba(143,168,191,.12);
 }
 
 .hintButton{
-
   display:none;
-
-  margin-top:8px;
-
-  font-size:13px;
-
-  color:#4dabf7;
-
-  text-decoration:underline;
-
-  font-weight:bold;
-
+  margin-top:6px;
+  font-size:11px;
+  letter-spacing:.1em;
+  color:var(--blue-gray);
+  text-decoration:none;
+  border-bottom:1px solid var(--mist);
+  cursor:pointer;
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
 }
 
 .hint{
-
-  margin-top:8px;
-
-  min-height:20px;
-
-  font-size:12px;
-
-  font-weight:bold;
-
+  margin-top:5px;
+  min-height:18px;
+  font-size:11px;
+  letter-spacing:.08em;
+  color:var(--sage);
+  font-weight:400;
 }
 
-button{
-
+/* 送信ボタン */
+.submit-btn{
   width:100%;
-
+  margin-top:8px;
   border:none;
-
   border-radius:999px;
-
-  padding:16px;
-
-  font-size:18px;
-
-  font-weight:bold;
-
+  padding:15px;
+  font-size:14px;
+  font-family:'Cormorant Garamond', serif;
+  font-weight:400;
+  letter-spacing:.25em;
   color:white;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ff4f8b,
-      #ff8f3c
-    );
-
+  background:linear-gradient(135deg, var(--sage) 0%, var(--blue-gray) 100%);
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:opacity .2s, transform .1s;
+  box-shadow:0 4px 16px rgba(143,168,191,.35);
 }
 
-
-/* Congratulations */
-
-#clearScreen{
-
-  position:fixed;
-
+.submit-btn::before{
+  content:'';
+  position:absolute;
   inset:0;
+  background:linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+}
 
-  background:
-    rgba(255,255,255,.96);
+.submit-btn:active{
+  transform:scale(.98);
+  opacity:.9;
+}
 
+/* CLEARオーバーレイ */
+#clearScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(232,242,252,.97);
   display:none;
-
   justify-content:center;
-
   align-items:center;
-
   z-index:9999;
-
+  backdrop-filter:blur(8px);
 }
 
 #clearScreen.show{
-
   display:flex;
+}
 
+/* フラッシュ */
+#flash{
+  position:fixed;
+  inset:0;
+  background:white;
+  z-index:10000;
+  pointer-events:none;
+  opacity:0;
+}
+
+#flash.fire{
+  animation: flashAnim .6s ease forwards;
+}
+
+@keyframes flashAnim{
+  0%{   opacity:0; }
+  20%{  opacity:.9; }
+  100%{ opacity:0; }
+}
+
+/* CLEAR画面の紙吹雪canvas */
+#clearCanvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9998;
+}
+
+#clearScreenInner{
+  animation: fadeInUp .5s .3s ease both;
+  opacity:0;
+}
+
+@keyframes fadeInUp{
+  from{ opacity:0; transform:translateY(16px); }
+  to{   opacity:1; transform:translateY(0); }
 }
 
 .clearCard{
-
   width:90%;
-
-  max-width:420px;
-
+  max-width:360px;
   text-align:center;
-
 }
-  
-  .mainText{
 
-  display:flex;
+/* 花びらSVG装飾 */
+.petal-deco{
+  font-size:28px;
+  opacity:.6;
+  animation:sway 3s ease-in-out infinite;
+  display:block;
+  margin-bottom:12px;
+}
 
-  justify-content:center;
+@keyframes sway{
+  0%,100%{ transform:rotate(-5deg) scale(1); }
+  50%{     transform:rotate(5deg) scale(1.05); }
+}
 
-  align-items:center;
+.clear-label{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:11px;
+  letter-spacing:.3em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
 
-  gap:10px;
-
-  flex-wrap:nowrap;
-
-  white-space:nowrap;
-
-  font-size:
-    clamp(26px,7vw,46px);
-
+.mainText{
+  font-family:'Cormorant Garamond', serif;
+  font-weight:300;
+  font-size:clamp(52px,14vw,72px);
+  letter-spacing:.08em;
+  color:var(--text);
   line-height:1;
-
-  font-weight:900;
-
-  color:#ff4f8b;
-
-  animation:
-    pop .8s ease;
-
+  animation:bloom .9s cubic-bezier(.2,.8,.3,1.2) both;
 }
 
+@keyframes bloom{
+  0%{   opacity:0; transform:scale(.6) translateY(10px); filter:blur(4px); }
+  60%{  opacity:1; transform:scale(1.04); filter:blur(0); }
+  100%{ opacity:1; transform:scale(1); }
+}
+
+.clear-sub{
+  margin-top:10px;
+  font-size:12px;
+  letter-spacing:.2em;
+  color:var(--text-light);
+}
 
 #finalButton{
-
   opacity:0;
-
-  margin-top:28px;
-
-  border:none;
-
+  margin-top:32px;
+  border:1px solid rgba(201,169,110,.4);
   border-radius:999px;
-
-  padding:16px 34px;
-
-  font-size:18px;
-
-  font-weight:bold;
-
-  color:white;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ff4f8b,
-      #ff8f3c
-    );
-
+  padding:14px 40px;
+  font-size:13px;
+  font-family:'Cormorant Garamond', serif;
+  letter-spacing:.2em;
+  color:var(--text);
+  background:white;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(143,168,191,.2);
+  transition:background .2s;
 }
 
 #finalButton.show{
-
-  animation:
-    fadeButton .8s forwards;
-
+  animation:fadeButton .8s .2s forwards;
 }
 
-@keyframes pop{
-
-  0%{
-
-    transform:
-      scale(.3);
-
-    opacity:0;
-
-  }
-
-  70%{
-
-    transform:
-      scale(1.1);
-
-  }
-
-  100%{
-
-    transform:
-      scale(1);
-
-    opacity:1;
-
-  }
-
+#finalButton:hover{
+  background:var(--cream);
 }
 
 @keyframes fadeButton{
-
-  from{
-
-    opacity:0;
-
-    transform:
-      translateY(15px);
-
-  }
-
-  to{
-
-    opacity:1;
-
-    transform:
-      translateY(0);
-
-  }
-
+  from{ opacity:0; transform:translateY(12px); }
+  to{   opacity:1; transform:translateY(0); }
 }
-
 </style>
 </head>
-
 <body>
-
 
 <div class="wrapper">
 
-<h1>
-  なぞとき
-</h1>
-
-
-<div class="wordBox">
-  <div class="label">謎①のこたえ</div>
-  <input id="c1">
-  <div
-    class="hintButton"
-    id="btn1"
-    onclick="showHint(1)"
-  >
-    -ヒントを見る-
+  <div class="title-area">
+    <div class="title-deco">Wedding Puzzle</div>
+    <h1>謎解き</h1>
+    <div class="title-sub">答えをすべて入力してください</div>
   </div>
-  <div class="hint" id="h1"></div>
-</div>
 
+  <div class="divider"></div>
 
-<div class="wordBox">
-  <div class="label">謎②のこたえ</div>
-  <input id="c2">
-  <div
-    class="hintButton"
-    id="btn2"
-    onclick="showHint(2)"
-  >
-    -ヒントを見る-
+  <div class="wordBox">
+    <div class="label">謎①</div>
+    <input id="c1">
+    <div class="hintButton" id="btn1" onclick="showHint(1)">hint を見る</div>
+    <div class="hint" id="h1"></div>
   </div>
-  <div class="hint" id="h2"></div>
-</div>
 
-
-<div class="wordBox">
-  <div class="label">謎③のこたえ</div>
-  <input id="c3">
-  <div
-    class="hintButton"
-    id="btn3"
-    onclick="showHint(3)"
-  >
-    -ヒントを見る-
+  <div class="wordBox">
+    <div class="label">謎②</div>
+    <input id="c2">
+    <div class="hintButton" id="btn2" onclick="showHint(2)">hint を見る</div>
+    <div class="hint" id="h2"></div>
   </div>
-  <div class="hint" id="h3"></div>
-</div>
 
-
-<div class="wordBox">
-  <div class="label">謎④のこたえ</div>
-  <input id="c4">
-  <div
-    class="hintButton"
-    id="btn4"
-    onclick="showHint(4)"
-  >
-    -ヒントを見る-
+  <div class="wordBox">
+    <div class="label">謎③</div>
+    <input id="c3">
+    <div class="hintButton" id="btn3" onclick="showHint(3)">hint を見る</div>
+    <div class="hint" id="h3"></div>
   </div>
-  <div class="hint" id="h4"></div>
-</div>
 
-
-<div class="wordBox">
-  <div class="label">謎⑤のこたえ</div>
-  <input id="c5">
-  <div
-    class="hintButton"
-    id="btn5"
-    onclick="showHint(5)"
-  >
-    -ヒントを見る-
+  <div class="wordBox">
+    <div class="label">謎④</div>
+    <input id="c4">
+    <div class="hintButton" id="btn4" onclick="showHint(4)">hint を見る</div>
+    <div class="hint" id="h4"></div>
   </div>
-  <div class="hint" id="h5"></div>
+
+  <div class="wordBox">
+    <div class="label">謎⑤</div>
+    <input id="c5">
+    <div class="hintButton" id="btn5" onclick="showHint(5)">hint を見る</div>
+    <div class="hint" id="h5"></div>
+  </div>
+
+  <button class="submit-btn" onclick="check()">答えを送信</button>
+
 </div>
 
-
-<button onclick="check()">
-  こたえを送信
-</button>
-
-
-</div>
-
-
+<div id="flash"></div>
+<canvas id="clearCanvas"></canvas>
 
 <div id="clearScreen">
-
-  <div class="clearCard">
-
-    <div class="mainText">
-
-  <span>🎊</span>
-
-  CLEAR!
-
-  <span>🎊</span>
-
-</div>
-
-    <button
-      id="finalButton"
-      onclick="goFinal()"
-    >
-      最後の問題へ
-    </button>
-
+  <div id="clearScreenInner" class="clearCard">
+    <div class="clear-label">Congratulations</div>
+    <div class="mainText">Clear</div>
+    <div class="clear-sub">全問正解</div>
+    <button id="finalButton" onclick="goFinal()">最後の問題へ</button>
   </div>
-
 </div>
-
-
 
 <script>
-
-/* ========= 設定 ========= */
-
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbx4rXy4gv0Gyp75wcnsDYiUH-IKGO_d9VSKGjPSpoKSTSeDuI3Hemd-rk06QNHxjhzL7w/exec";
 
-  
-let tracker;
+const correct = ["えがお","とくべつ","こうふく","ふたり","あかし"];
+const hints   = ["① 右から時計回り","② 矢印の通り道","③ 7×7、8×8、4×8","④ 上下左右に注目","⑤ もう一回"];
 
-const correct = [
-
-  "えがお",
-
-  "とくべつ",
-
-  "こうふく",
-
-  "ふたり",
-
-  "あかし"
-
-];
-
-
-
-const hints = [
-
-  "① 右から時計回り",
-
-  "② 矢印の通り道",
-
-  "③ 7×7、8×8、4×8",
-
-  "④ 上下左右に注目",
-
-  "⑤ もう一回"
-
-];
-
-
-
-/* ========= QRのID取得 ========= */
-
-const params =
-  new URLSearchParams(
-    location.search
-  );
-
-
-
-const userId =
-
-  params.get("id")
-
-  ||
-
-  "guest";
-
-
-
-/* ========= カタカナ→ひらがな ========= */
+const params = new URLSearchParams(location.search);
+const userId = params.get("id") || "guest";
 
 function hira(str){
-
-  return str
-    .trim()
-    .replace(
-
-      /[ァ-ン]/g,
-
-      s =>
-
-      String.fromCharCode(
-
-        s.charCodeAt(0)
-
-        - 0x60
-
-      )
-
-    );
-
+  return str.trim().replace(/[ァ-ン]/g, s => String.fromCharCode(s.charCodeAt(0) - 0x60));
 }
-
-
-
-/* ========= ヒント表示 ========= */
 
 function showHint(num){
-
-  document
-    .getElementById(
-      "h"+num
-    )
-    .innerHTML =
-
-    hints[num-1];
-
+  document.getElementById("h"+num).innerHTML = hints[num-1];
 }
-
-
-
-/* ========= 答え合わせ ========= */
 
 function check(){
-
-
-  let score =
-    0;
-
-
-
-  for(
-
-    let i=1;
-
-    i<=5;
-
-    i++
-
-  ){
-
-
-    document
-      .getElementById(
-        "h"+i
-      )
-      .innerHTML =
-      "";
-
-
-
-    document
-      .getElementById(
-        "btn"+i
-      )
-      .style.display =
-      "none";
-
-
+  let score = 0;
+  for(let i=1;i<=5;i++){
+    document.getElementById("h"+i).innerHTML = "";
+    document.getElementById("btn"+i).style.display = "none";
   }
-
-
-
   const input = [
-
-    hira(c1.value),
-
-    hira(c2.value),
-
-    hira(c3.value),
-
-    hira(c4.value),
-
-    hira(c5.value)
-
+    hira(c1.value), hira(c2.value), hira(c3.value), hira(c4.value), hira(c5.value)
   ];
-
-
-
-  for(
-
-    let i=0;
-
-    i<5;
-
-    i++
-
-  ){
-
-
-    const hintArea =
-
-      document
-        .getElementById(
-
-          "h"+(i+1)
-
-        );
-
-
-
-    const hintButton =
-
-      document
-        .getElementById(
-
-          "btn"+(i+1)
-
-        );
-
-
-
-    if(
-
-      input[i]
-
-      ===
-
-      correct[i]
-
-    ){
-
-
+  for(let i=0;i<5;i++){
+    const hintArea   = document.getElementById("h"+(i+1));
+    const hintButton = document.getElementById("btn"+(i+1));
+    if(input[i] === correct[i]){
       score++;
-
-
-
-      hintArea
-        .innerHTML =
-        "CLEAR";
-
-
-
-      hintArea
-        .style.color =
-        "#20d67b";
-
-
+      hintArea.innerHTML  = "✓";
+      hintArea.style.color = "#a8bfae";
     }else{
-
-
-      hintButton
-        .style.display =
-        "block";
-
-
+      hintButton.style.display = "block";
     }
-
-
   }
-
-
-
-  if(
-
-    score===5
-
-  ){
-
-    showCongratulations();
-
-  }
-
-
+  if(score===5) showCongratulations();
 }
 
-
-
-/* ========= 5問クリア ========= */
-
 function showCongratulations(){
-  const screen = document.getElementById("clearScreen");
-  const button = document.getElementById("finalButton");
+  if(window._sent) return;
+  window._sent = true;
 
-  // CLEARを即表示
-  screen.classList.add("show");
-  setTimeout(() => {
-    button.classList.add("show");
-  }, 1000);
+  // フラッシュ
+  const flash = document.getElementById("flash");
+  flash.classList.add("fire");
 
-  // GAS送信はバックグラウンドで
+  setTimeout(()=>{
+    const screen = document.getElementById("clearScreen");
+    const button = document.getElementById("finalButton");
+    screen.classList.add("show");
+    setTimeout(() => button.classList.add("show"), 1000);
+    startClearConfetti();
+  }, 200);
+
   const url = GAS_URL
-    + "?id=" + encodeURIComponent(userId || "guest")
+    + "?id="    + encodeURIComponent(userId)
     + "&point=first"
-    + "&ua=" + encodeURIComponent(navigator.userAgent);
-
+    + "&ua="    + encodeURIComponent(navigator.userAgent);
   fetch(url, { method:"GET", mode:"no-cors" }).catch(()=>{});
 }
 
+function startClearConfetti(){
+  const canvas = document.getElementById("clearCanvas");
+  const ctx    = canvas.getContext("2d");
+  canvas.width  = innerWidth;
+  canvas.height = innerHeight;
 
+  const colors = [
+    "rgba(255,255,255,.9)",
+    "rgba(220,235,255,.9)",
+    "rgba(180,210,255,.85)",
+    "rgba(240,248,255,.9)",
+    "rgba(200,225,255,.85)"
+  ];
 
+  const pieces = Array.from({length:180}, ()=>({
+    x:       Math.random() * canvas.width,
+    y:       -20 - Math.random() * 200,
+    w:       5  + Math.random() * 10,
+    h:       7  + Math.random() * 12,
+    speed:   2.5 + Math.random() * 4,
+    drift:   -2 + Math.random() * 4,
+    rotate:  Math.random() * 360,
+    spin:    2  + Math.random() * 5,
+    color:   colors[Math.floor(Math.random() * colors.length)]
+  }));
 
-/* ========= finalへ ========= */
+  let running = true;
+  setTimeout(()=>{ running = false; ctx.clearRect(0,0,canvas.width,canvas.height); }, 4000);
 
-function goFinal(){
-
-
-  location.href =
-
-    "final.html?id="
-
-    +
-
-    userId;
-
-
+  function animate(){
+    if(!running) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p=>{
+      p.y      += p.speed;
+      p.x      += p.drift;
+      p.rotate += p.spin;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotate * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.w/2, p.h/2, 0, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
 }
 
+function goFinal(){
+  location.href = "final.html?id=" + userId;
+}
 </script>
-
 </body>
 </html>
